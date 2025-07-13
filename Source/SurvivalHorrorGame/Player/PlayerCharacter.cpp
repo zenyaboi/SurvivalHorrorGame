@@ -83,8 +83,11 @@ void APlayerCharacter::Run()
 {
 	isRunning = !isRunning;
 
-	float velocity = isRunning ? RunningSpeed : WalkSpeed;
-	GetCharacterMovement()->MaxWalkSpeed = velocity;
+	if (!isCrouching)
+	{
+		float velocity = isRunning ? RunningSpeed : WalkSpeed;
+		GetCharacterMovement()->MaxWalkSpeed = velocity;
+	}
 }
 
 void APlayerCharacter::ToggleCrouch()
@@ -93,12 +96,13 @@ void APlayerCharacter::ToggleCrouch()
 	if (isCrouching)
 	{
 		TargetCapsuleHalfHeight = 44.f;
-		GetCharacterMovement()->MaxWalkSpeedCrouched = CrouchSpeed;
+		isRunning = false;
+		GetCharacterMovement()->MaxWalkSpeed = CrouchSpeed;
 	}
 	else
 	{
 		TargetCapsuleHalfHeight = 88.f;
-		GetCharacterMovement()->MaxWalkSpeedCrouched = GetCharacterMovement()->MaxWalkSpeed;
+		GetCharacterMovement()->MaxWalkSpeed = isRunning ? RunningSpeed : WalkSpeed;;
 	}
 }
 
