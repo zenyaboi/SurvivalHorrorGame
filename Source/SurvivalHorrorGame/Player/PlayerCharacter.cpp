@@ -31,6 +31,18 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
+	PlayerInputComponent->BindAxis("MoveForward", this, &APlayerCharacter::MoveForward);
+	PlayerInputComponent->BindAxis("MoveRight", this, &APlayerCharacter::MoveRight);
 }
 
+void APlayerCharacter::MoveForward(float InputValue)
+{
+	FVector ForwardDirection = GetActorForwardVector();
+	AddMovementInput(ForwardDirection, InputValue);
+}
+
+void APlayerCharacter::MoveRight(float InputValue)
+{
+	FVector RightDirection = GetActorRightVector();
+	AddMovementInput(RightDirection, InputValue);
+}
