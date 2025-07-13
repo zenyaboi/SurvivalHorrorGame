@@ -5,7 +5,6 @@
 #include "Components/StaticMeshComponent.h"
 #include "S_ItemData.generated.h"
 
-
 USTRUCT(BlueprintType)
 struct SURVIVALHORRORGAME_API FItemData
 {
