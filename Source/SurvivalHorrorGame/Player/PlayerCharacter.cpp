@@ -2,6 +2,7 @@
 #include "Camera/CameraComponent.h"
 #include "Components/SpotLightComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
@@ -36,8 +37,16 @@ APlayerCharacter::APlayerCharacter()
 	
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 
+	FlashlightBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("FlashlightBoom"));
+	FlashlightBoom->SetupAttachment(Camera);
+	FlashlightBoom->TargetArmLength = 0.f;
+	FlashlightBoom->bUsePawnControlRotation = true;
+	FlashlightBoom->bEnableCameraRotationLag = true;
+	FlashlightBoom->CameraRotationLagSpeed = 20.f;
+	FlashlightBoom->bDoCollisionTest = false;
+	
 	Flashlight = CreateDefaultSubobject<USpotLightComponent>(TEXT("Flashlight"));
-	Flashlight->SetupAttachment(Camera);
+	Flashlight->SetupAttachment(FlashlightBoom);
 	isFlashlightOn = false;
 }
 

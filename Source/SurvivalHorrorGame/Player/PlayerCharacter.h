@@ -27,6 +27,8 @@ public:
 protected:
 	UPROPERTY(EditAnywhere);
 	class UCameraComponent* Camera;
+	UPROPERTY(EditAnywhere);
+	class USpringArmComponent* FlashlightBoom;
 
 	// Keyboard Input Movement
 	void MoveForward(float InputValue);
