@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "SurvivalHorrorGame/Inventory/InventoryComponent.h"
 #include "PlayerCharacter.generated.h"
 
 UCLASS()
@@ -29,6 +30,8 @@ protected:
 	class UCameraComponent* Camera;
 	UPROPERTY(EditAnywhere);
 	class USpringArmComponent* FlashlightBoom;
+	UPROPERTY(EditAnywhere);
+	class UInventoryComponent* InventoryComponent;
 
 	// Keyboard Input Movement
 	void MoveForward(float InputValue);
