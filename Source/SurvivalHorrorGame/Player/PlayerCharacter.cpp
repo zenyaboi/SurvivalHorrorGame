@@ -12,6 +12,9 @@ APlayerCharacter::APlayerCharacter()
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Player Camera"));
 	Camera->SetupAttachment(RootComponent);
 	Camera->bUsePawnControlRotation = true;
+
+	HorizontalSensitivity = 0.5f;
+	VerticalSensitivity = 0.5f;
 }
 
 // Called when the game starts or when spawned
@@ -31,8 +34,13 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	// Player Movement Input
 	PlayerInputComponent->BindAxis("MoveForward", this, &APlayerCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &APlayerCharacter::MoveRight);
+
+	// Camera Input
+	PlayerInputComponent->BindAxis("TurnCamera", this, &APlayerCharacter::Turn);
+	PlayerInputComponent->BindAxis("LookUp", this, &APlayerCharacter::Look);
 }
 
 void APlayerCharacter::MoveForward(float InputValue)
@@ -45,4 +53,14 @@ void APlayerCharacter::MoveRight(float InputValue)
 {
 	FVector RightDirection = GetActorRightVector();
 	AddMovementInput(RightDirection, InputValue);
+}
+
+void APlayerCharacter::Turn(float InputValue)
+{
+	AddControllerYawInput(InputValue * HorizontalSensitivity);
+}
+
+void APlayerCharacter::Look(float InputValue)
+{
+	AddControllerPitchInput(InputValue * VerticalSensitivity);
 }

@@ -28,6 +28,17 @@ protected:
 	UPROPERTY(EditAnywhere)
 	class UCameraComponent* Camera;
 
+	// Keyboard Input Movement
 	void MoveForward(float InputValue);
 	void MoveRight(float InputValue);
+
+	// Camera Mouse Input 
+	void Turn(float InputValue);
+	void Look(float InputValue);
+public:
+	// Camera Sensitivity
+	UPROPERTY(EditAnywhere, Category = Camera);
+	float HorizontalSensitivity;
+	UPROPERTY(EditAnywhere, Category = Camera);
+	float VerticalSensitivity;
 };
