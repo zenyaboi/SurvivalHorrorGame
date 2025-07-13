@@ -28,6 +28,9 @@ APlayerCharacter::APlayerCharacter()
 	GetCharacterMovement()->GetNavAgentPropertiesRef().bCanCrouch = true;
 	GetCharacterMovement()->GetNavAgentPropertiesRef().AgentRadius = GetCapsuleComponent()->GetScaledCapsuleRadius();
 	GetCharacterMovement()->GetNavAgentPropertiesRef().AgentHeight = GetCapsuleComponent()->GetScaledCapsuleHalfHeight() * 2.f;
+	CurrentCapsuleHalfHeight = GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight();
+	TargetCapsuleHalfHeight = CurrentCapsuleHalfHeight;
+	
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 }
 
@@ -41,6 +44,10 @@ void APlayerCharacter::BeginPlay()
 void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	
+	CurrentCapsuleHalfHeight = FMath::FInterpTo(CurrentCapsuleHalfHeight, TargetCapsuleHalfHeight, DeltaTime, CapsuleInterpSpeed);
+	GetCapsuleComponent()->SetCapsuleHalfHeight(CurrentCapsuleHalfHeight);
+
 }
 
 // Called to bind functionality to input
@@ -85,12 +92,12 @@ void APlayerCharacter::ToggleCrouch()
 	isCrouching = !isCrouching;
 	if (isCrouching)
 	{
-		Crouch();
+		TargetCapsuleHalfHeight = 44.f;
 		GetCharacterMovement()->MaxWalkSpeedCrouched = CrouchSpeed;
 	}
 	else
 	{
-		UnCrouch();
+		TargetCapsuleHalfHeight = 88.f;
 		GetCharacterMovement()->MaxWalkSpeedCrouched = GetCharacterMovement()->MaxWalkSpeed;
 	}
 }

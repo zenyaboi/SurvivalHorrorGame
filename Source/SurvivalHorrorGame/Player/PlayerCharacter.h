@@ -48,6 +48,10 @@ protected:
 	float RunningSpeed;
 	float CrouchSpeed;
 
+	float TargetCapsuleHalfHeight;
+	float CurrentCapsuleHalfHeight;
+	float CapsuleInterpSpeed = 10.f;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Movement");
 	bool isRunning;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Movement");
