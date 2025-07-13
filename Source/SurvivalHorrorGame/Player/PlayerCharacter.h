@@ -32,6 +32,7 @@ protected:
 	void MoveForward(float InputValue);
 	void MoveRight(float InputValue);
 	void Run();
+	void ToggleCrouch();
 
 	// Camera Mouse Input 
 	void Turn(float InputValue);
@@ -45,7 +46,10 @@ public:
 protected:
 	float WalkSpeed;
 	float RunningSpeed;
+	float CrouchSpeed;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Movement");
 	bool isRunning;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Movement");
+	bool isCrouching;
 };

@@ -1,7 +1,6 @@
 #include "SurvivalHorrorGame/Player/PlayerCharacter.h"
 #include "Camera/CameraComponent.h"
-
-#include "Camera/CameraComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
@@ -17,13 +16,18 @@ APlayerCharacter::APlayerCharacter()
 	// Player Speed
 	WalkSpeed = 200.0f;
 	RunningSpeed = 300.0f;
+	CrouchSpeed = 120.0f;
 
 	isRunning = false;
+	isCrouching = false;
 	
 	// Camera Sensitivity
 	HorizontalSensitivity = 0.5f;
 	VerticalSensitivity = 0.5f;
 
+	GetCharacterMovement()->GetNavAgentPropertiesRef().bCanCrouch = true;
+	GetCharacterMovement()->GetNavAgentPropertiesRef().AgentRadius = GetCapsuleComponent()->GetScaledCapsuleRadius();
+	GetCharacterMovement()->GetNavAgentPropertiesRef().AgentHeight = GetCapsuleComponent()->GetScaledCapsuleHalfHeight() * 2.f;
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 }
 
@@ -49,6 +53,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAxis("MoveRight", this, &APlayerCharacter::MoveRight);
 	PlayerInputComponent->BindAction("Run", IE_Pressed, this, &APlayerCharacter::Run);
 	PlayerInputComponent->BindAction("Run", IE_Released, this,  &APlayerCharacter::Run);
+	PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &APlayerCharacter::ToggleCrouch);
 
 	// Camera Input
 	PlayerInputComponent->BindAxis("TurnCamera", this, &APlayerCharacter::Turn);
@@ -73,6 +78,21 @@ void APlayerCharacter::Run()
 
 	float velocity = isRunning ? RunningSpeed : WalkSpeed;
 	GetCharacterMovement()->MaxWalkSpeed = velocity;
+}
+
+void APlayerCharacter::ToggleCrouch()
+{
+	isCrouching = !isCrouching;
+	if (isCrouching)
+	{
+		Crouch();
+		GetCharacterMovement()->MaxWalkSpeedCrouched = CrouchSpeed;
+	}
+	else
+	{
+		UnCrouch();
+		GetCharacterMovement()->MaxWalkSpeedCrouched = GetCharacterMovement()->MaxWalkSpeed;
+	}
 }
 
 void APlayerCharacter::Turn(float InputValue)
