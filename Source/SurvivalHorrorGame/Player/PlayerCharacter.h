@@ -31,6 +31,7 @@ protected:
 	// Keyboard Input Movement
 	void MoveForward(float InputValue);
 	void MoveRight(float InputValue);
+	void Run();
 
 	// Camera Mouse Input 
 	void Turn(float InputValue);
@@ -41,4 +42,10 @@ public:
 	float HorizontalSensitivity;
 	UPROPERTY(EditAnywhere, Category = Camera);
 	float VerticalSensitivity;
+protected:
+	float WalkSpeed;
+	float RunningSpeed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Movement");
+	bool isRunning;
 };
