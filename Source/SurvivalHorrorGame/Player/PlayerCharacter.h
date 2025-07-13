@@ -25,7 +25,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 protected:
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere);
 	class UCameraComponent* Camera;
 
 	// Keyboard Input Movement
@@ -37,6 +37,9 @@ protected:
 	// Camera Mouse Input 
 	void Turn(float InputValue);
 	void Look(float InputValue);
+
+	// Misc
+	void FlashlightToggle();
 public:
 	// Camera Sensitivity
 	UPROPERTY(EditAnywhere, Category = Camera);
@@ -56,4 +59,9 @@ protected:
 	bool isRunning;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Movement");
 	bool isCrouching;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Flashlight");
+	bool isFlashlightOn;
+public:
+	UPROPERTY(EditAnywhere);
+	class USpotLightComponent* Flashlight;
 };

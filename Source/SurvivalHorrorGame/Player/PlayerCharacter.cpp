@@ -1,5 +1,6 @@
 #include "SurvivalHorrorGame/Player/PlayerCharacter.h"
 #include "Camera/CameraComponent.h"
+#include "Components/SpotLightComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
@@ -9,6 +10,7 @@ APlayerCharacter::APlayerCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	// Setting Camera
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Player Camera"));
 	Camera->SetupAttachment(RootComponent);
 	Camera->bUsePawnControlRotation = true;
@@ -25,6 +27,7 @@ APlayerCharacter::APlayerCharacter()
 	HorizontalSensitivity = 0.5f;
 	VerticalSensitivity = 0.5f;
 
+	// Crouch Settings
 	GetCharacterMovement()->GetNavAgentPropertiesRef().bCanCrouch = true;
 	GetCharacterMovement()->GetNavAgentPropertiesRef().AgentRadius = GetCapsuleComponent()->GetScaledCapsuleRadius();
 	GetCharacterMovement()->GetNavAgentPropertiesRef().AgentHeight = GetCapsuleComponent()->GetScaledCapsuleHalfHeight() * 2.f;
@@ -32,6 +35,10 @@ APlayerCharacter::APlayerCharacter()
 	TargetCapsuleHalfHeight = CurrentCapsuleHalfHeight;
 	
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+
+	Flashlight = CreateDefaultSubobject<USpotLightComponent>(TEXT("Flashlight"));
+	Flashlight->SetupAttachment(Camera);
+	isFlashlightOn = false;
 }
 
 // Called when the game starts or when spawned
@@ -47,6 +54,8 @@ void APlayerCharacter::Tick(float DeltaTime)
 	
 	CurrentCapsuleHalfHeight = FMath::FInterpTo(CurrentCapsuleHalfHeight, TargetCapsuleHalfHeight, DeltaTime, CapsuleInterpSpeed);
 	GetCapsuleComponent()->SetCapsuleHalfHeight(CurrentCapsuleHalfHeight);
+
+	Flashlight->SetVisibility(isFlashlightOn);
 
 }
 
@@ -65,6 +74,9 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	// Camera Input
 	PlayerInputComponent->BindAxis("TurnCamera", this, &APlayerCharacter::Turn);
 	PlayerInputComponent->BindAxis("LookUp", this, &APlayerCharacter::Look);
+
+	// Misc
+	PlayerInputComponent->BindAction("FlashlightToggle", IE_Pressed, this, &APlayerCharacter::FlashlightToggle);
 }
 
 void APlayerCharacter::MoveForward(float InputValue)
@@ -114,4 +126,9 @@ void APlayerCharacter::Turn(float InputValue)
 void APlayerCharacter::Look(float InputValue)
 {
 	AddControllerPitchInput(InputValue * VerticalSensitivity);
+}
+
+void APlayerCharacter::FlashlightToggle()
+{
+	isFlashlightOn = !isFlashlightOn;
 }
