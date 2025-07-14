@@ -23,7 +23,8 @@ void UInventoryComponent::BeginPlay()
 	{
 		InventoryReference = CreateWidget<UUserWidget>(GetWorld(), WInventoryGridClass);
 
-		if (UW_InventoryGrid* InventoryGrid = Cast<UW_InventoryGrid>(InventoryReference))
+		UW_InventoryGrid* InventoryGrid = Cast<UW_InventoryGrid>(InventoryReference);
+		if (InventoryGrid)
 		{
 			InventoryGrid->Items = Items;
 			InventoryGrid->InventorySize = InventorySize;
