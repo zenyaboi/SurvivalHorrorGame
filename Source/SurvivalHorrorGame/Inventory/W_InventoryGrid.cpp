@@ -2,9 +2,15 @@
 #include "SurvivalHorrorGame/Inventory/W_ItemSlot.h"
 #include "Components/WrapBox.h"
 #include "Components/Image.h"
-#include "Components/TextBlock.h"
+#include "InventoryComponent.h"
 #include "Components/Border.h"
 
+void UW_InventoryGrid::NativeConstruct()
+{
+	Super::NativeConstruct();
+    
+	SetIsFocusable(true);
+}
 
 void UW_InventoryGrid::RefreshInventory()
 {
@@ -47,4 +53,28 @@ void UW_InventoryGrid::RefreshInventory()
 			UE_LOG(LogTemp, Warning, TEXT("Slot %d criado"), i);
 		}
 	}
+}
+
+FReply UW_InventoryGrid::NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
+{
+	if (InKeyEvent.GetKey() == EKeys::Tab || InKeyEvent.GetKey() == EKeys::I || InKeyEvent.GetKey() == EKeys::Escape)
+	{
+		if (AActor* Owner = GetOwningPlayerPawn())
+		{
+			if (UInventoryComponent* InventoryComp = Owner->FindComponentByClass<UInventoryComponent>())
+			{
+				InventoryComp->ToggleInventory();
+				return FReply::Handled();
+			}
+		}
+	}
+    
+	return Super::NativeOnKeyDown(InGeometry, InKeyEvent);
+}
+
+FReply UW_InventoryGrid::NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent)
+{
+	FReply ParentReply = Super::NativeOnFocusReceived(InGeometry, InFocusEvent);
+	
+	return FReply::Handled();
 }

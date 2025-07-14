@@ -76,14 +76,22 @@ void UInventoryComponent::ToggleInventory()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Tentando adicionar widget à viewport..."));
 		InventoryReference->AddToViewport();
-		PlayerController->SetInputMode(FInputModeGameAndUI());
+		
+		FInputModeUIOnly InputMode;
+		InputMode.SetWidgetToFocus(InventoryReference->TakeWidget());
+		InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+		
+		PlayerController->SetInputMode(InputMode);
 		PlayerController->bShowMouseCursor = true;
+
+		InventoryReference->SetKeyboardFocus();
 		UE_LOG(LogTemp, Warning, TEXT("Widget adicionado e input mode configurado!"));
 	}
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Tentando remover widget da viewport..."));
 		InventoryReference->RemoveFromParent();
+		
 		PlayerController->SetInputMode(FInputModeGameOnly());
 		PlayerController->bShowMouseCursor = false;
 		UE_LOG(LogTemp, Warning, TEXT("Widget removido e input mode revertido!"));

@@ -11,6 +11,8 @@ class SURVIVALHORRORGAME_API UW_InventoryGrid : public UUserWidget
 {
 	GENERATED_BODY()
 public:
+	virtual void NativeConstruct() override;
+	
 	UPROPERTY(BlueprintReadWrite, Category = "Inventory")
 	TArray<FItemData> Items;
 	UPROPERTY(BlueprintReadWrite, Category = "Inventory")
@@ -24,4 +26,7 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	class UWrapBox* WrapBoxInventory;
+	
+	virtual FReply NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
+	virtual FReply NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent) override;
 };
