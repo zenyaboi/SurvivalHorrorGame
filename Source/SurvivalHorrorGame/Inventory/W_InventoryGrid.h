@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Components/WrapBox.h"
 #include "SurvivalHorrorGame/Inventory/S_ItemData.h"
 #include "W_InventoryGrid.generated.h"
 
@@ -15,6 +16,12 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "Inventory")
 	int32 InventorySize;
 
-	UFUNCTION(BlueprintImplementableEvent, Category = "Inventory")
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	void RefreshInventory();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
+	TSubclassOf<UUserWidget> SlotWidgetClass;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	class UWrapBox* WrapBoxInventory;
 };
