@@ -1,4 +1,5 @@
 #include "SurvivalHorrorGame/Inventory/InventoryComponent.h"
+#include "SurvivalHorrorGame/Inventory/W_InventoryGrid.h"
 #include "Blueprint/UserWidget.h"
 
 // Sets default values for this component's properties
@@ -19,6 +20,12 @@ void UInventoryComponent::BeginPlay()
 	if (WInventoryGridClass)
 	{
 		InventoryReference = CreateWidget<UUserWidget>(GetWorld(), WInventoryGridClass);
+
+		if (UW_InventoryGrid* InventoryGrid = Cast<UW_InventoryGrid>(InventoryReference))
+		{
+			InventoryGrid->Items = Items;
+			InventoryGrid->InventorySize = InventorySize;
+		}
 	}
 }
 
