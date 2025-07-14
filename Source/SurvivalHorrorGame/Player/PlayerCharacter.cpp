@@ -90,6 +90,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 	// Misc
 	PlayerInputComponent->BindAction("FlashlightToggle", IE_Pressed, this, &APlayerCharacter::FlashlightToggle);
+	PlayerInputComponent->BindAction("ToggleInventory", IE_Pressed, this, &APlayerCharacter::ToggleInventory);
 }
 
 void APlayerCharacter::MoveForward(float InputValue)
@@ -144,4 +145,12 @@ void APlayerCharacter::Look(float InputValue)
 void APlayerCharacter::FlashlightToggle()
 {
 	isFlashlightOn = !isFlashlightOn;
+}
+
+void APlayerCharacter::ToggleInventory()
+{
+	if (InventoryComponent)
+	{
+		InventoryComponent->ToggleInventory();
+	}
 }

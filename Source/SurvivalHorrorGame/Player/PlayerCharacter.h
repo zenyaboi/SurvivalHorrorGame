@@ -45,6 +45,7 @@ protected:
 
 	// Misc
 	void FlashlightToggle();
+	void ToggleInventory();
 public:
 	// Camera Sensitivity
 	UPROPERTY(EditAnywhere, Category = Camera);

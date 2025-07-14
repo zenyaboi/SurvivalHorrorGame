@@ -34,4 +34,13 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
 	TSubclassOf<UUserWidget> WInventoryGridClass;
+
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	void RefreshInventory();
+
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	void ToggleInventory();
+
+	UPROPERTY(BlueprintReadWrite, Category = "Inventory")
+	bool isInventoryVisible;
 };
