@@ -14,14 +14,24 @@ ABaseItem::ABaseItem()
 	OuterSphereCollision = CreateDefaultSubobject<USphereComponent>(TEXT("OuterSphereCollision"));
 	OuterSphereCollision->SetupAttachment(RootComponent);
 	OuterSphereCollision->SetSphereRadius(57.f);
+	OuterSphereCollision->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	OuterSphereCollision->SetCollisionResponseToAllChannels(ECR_Ignore);
+	OuterSphereCollision->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
+	OuterSphereCollision->SetGenerateOverlapEvents(true);
+	
 	InnerSphereCollision = CreateDefaultSubobject<USphereComponent>(TEXT("InnerSphereCollision"));
 	InnerSphereCollision->SetupAttachment(RootComponent);
+	InnerSphereCollision->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	InnerSphereCollision->SetCollisionResponseToAllChannels(ECR_Ignore);
+	InnerSphereCollision->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
+	InnerSphereCollision->SetGenerateOverlapEvents(true);
 
 	// Creating Billboards
 	InnerInteractIcon = CreateDefaultSubobject<UBillboardComponent>(TEXT("InnerInteractIcon"));
 	InnerInteractIcon->SetupAttachment(InnerSphereCollision);
 	InnerInteractIcon->SetVisibility(false);
 	InnerInteractIcon->SetHiddenInGame(false);
+	
 	OuterInteractIcon = CreateDefaultSubobject<UBillboardComponent>(TEXT("OuterInteractIcon"));
 	OuterInteractIcon->SetupAttachment(OuterSphereCollision);
 	OuterInteractIcon->SetVisibility(false);
