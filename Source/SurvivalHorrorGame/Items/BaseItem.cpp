@@ -59,6 +59,9 @@ void ABaseItem::BeginPlay()
 void ABaseItem::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (isInnerOverlapped || !isOuterOverlapped) OuterIcon->SetVisibility(false);
+	else if (!isInnerOverlapped || isOuterOverlapped) OuterIcon->SetVisibility(true);
 }
 
 void ABaseItem::OnInnerBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -90,11 +93,11 @@ void ABaseItem::OnInnerEndOverlap(UPrimitiveComponent* OverlappedComponent, AAct
 void ABaseItem::OnOuterBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Outer Sphere Begin Overlap with: %s"), *OtherActor->GetName());
+
+	isOuterOverlapped = true;	
 	
 	if (OuterIcon) 
 	{
-		if (isInnerOverlapped)
-			OuterIcon->SetVisibility(false);
 		OuterIcon->SetVisibility(true);
 		UE_LOG(LogTemp, Warning, TEXT("Outer Icon mostrado"));
 	}
@@ -103,6 +106,8 @@ void ABaseItem::OnOuterBeginOverlap(UPrimitiveComponent* OverlappedComponent, AA
 void ABaseItem::OnOuterEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Outer Sphere End Overlap with: %s"), *OtherActor->GetName());
+
+	isOuterOverlapped = false;
 	
 	if (OuterIcon) 
 	{
