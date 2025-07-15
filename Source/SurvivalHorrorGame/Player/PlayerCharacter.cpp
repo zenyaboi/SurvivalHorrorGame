@@ -62,6 +62,8 @@ APlayerCharacter::APlayerCharacter()
 	HUDWidget = nullptr;
 
 	InteractionRange = 300.0f;
+	
+	isInteracting = false;
 }
 
 // Called when the game starts or when spawned
@@ -170,6 +172,11 @@ void APlayerCharacter::ToggleInventory()
 
 void APlayerCharacter::Interact()
 {
+	if (isInteracting)
+	{
+		return;
+	}
+	
 	FVector CameraLocation = Camera->GetComponentLocation();
 	FVector CameraForward = Camera->GetForwardVector();
 
@@ -198,8 +205,24 @@ void APlayerCharacter::Interact()
 			IInteract* InteractInterface = Cast<IInteract>(HitActor);
 			if (InteractInterface)
 			{
-				bool isInteracting = IInteract::Execute_Interact(HitActor, this);
-				
+				bool InteractionResult = IInteract::Execute_Interact(HitActor, this);
+
+				if (InteractionResult)
+				{
+					isInteracting = true;
+
+					GetWorld()->GetTimerManager().SetTimer(
+						InteractionTimerHandle,
+						this,
+						&APlayerCharacter::ResetInteractionState,
+						1.0f,
+						false
+					);
+				}
+			}
+			else
+			{
+				isInteracting = false;
 			}
 		}
 	}
@@ -220,6 +243,12 @@ void APlayerCharacter::Interact()
 			DrawDebugLine(GetWorld(), CameraLocation, EndLocation, FColor::Red, false, 5.0f, 0, 2.0f);
 		}
 	#endif
+}
+
+void APlayerCharacter::ResetInteractionState()
+{
+	isInteracting = false;
+	UE_LOG(LogTemp, Warning, TEXT("Interação resetada"));
 }
 
 void APlayerCharacter::CreateHUDWidget()

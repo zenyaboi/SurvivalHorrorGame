@@ -81,6 +81,13 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction")
 	float InteractionRange;
+
+	FTimerHandle InteractionTimerHandle;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Interaction");
+	bool isInteracting;
+
+	void ResetInteractionState();
 public:
 	UPROPERTY(EditAnywhere);
 	class USpotLightComponent* Flashlight;
