@@ -186,6 +186,20 @@ void APlayerCharacter::Interact()
 		ECC_Visibility,
 		QueryParams
 	);
+
+	if (hit)
+	{
+		AActor* HitActor = HitResult.GetActor();
+
+		if (HitActor)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Interagindo com: %s"), *HitActor->GetName());
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Nenhum objeto encontrado"));
+	}
 }
 
 void APlayerCharacter::CreateHUDWidget()
