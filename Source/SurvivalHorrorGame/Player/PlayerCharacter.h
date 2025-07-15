@@ -78,6 +78,9 @@ protected:
 	bool isCrouching;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Flashlight");
 	bool isFlashlightOn;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction")
+	float InteractionRange;
 public:
 	UPROPERTY(EditAnywhere);
 	class USpotLightComponent* Flashlight;

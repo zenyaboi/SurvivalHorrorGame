@@ -1,5 +1,9 @@
 #include "SurvivalHorrorGame/Player/PlayerCharacter.h"
 #include "Camera/CameraComponent.h"
+#include "Engine/Engine.h"
+#include "DrawDebugHelpers.h"
+#include "CollisionQueryParams.h"
+#include "Engine/World.h"
 #include "Components/SpotLightComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -55,6 +59,8 @@ APlayerCharacter::APlayerCharacter()
 	isFlashlightOn = false;
 
 	HUDWidget = nullptr;
+
+	InteractionRange = 300.0f;
 }
 
 // Called when the game starts or when spawned
@@ -159,6 +165,54 @@ void APlayerCharacter::ToggleInventory()
 	{
 		InventoryComponent->ToggleInventory();
 	}
+}
+
+void APlayerCharacter::Interact()
+{
+	FVector CameraLocation = Camera->GetComponentLocation();
+	FVector CameraForward = Camera->GetForwardVector();
+
+	FVector EndLocation = CameraLocation + (CameraForward * InteractionRange);
+
+	FCollisionQueryParams QueryParams;
+	QueryParams.AddIgnoredActor(this);
+	QueryParams.bTraceComplex = true;
+
+	FHitResult HitResult;
+	bool hit = GetWorld()->LineTraceSingleByChannel(
+		HitResult,
+		CameraLocation,
+		EndLocation,
+		ECC_Visibility,
+		QueryParams
+	);
+
+	if (hit)
+	{
+		AActor* HitActor = HitResult.GetActor();
+
+		if (HitActor)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Interagindo com: %s"), *HitActor->GetName());
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Nenhum objeto encontrado"));
+	}
+
+	// Debug
+	#if WITH_EDITOR
+		if (hit)
+		{
+			DrawDebugLine(GetWorld(), CameraLocation, HitResult.Location, FColor::Green, false, 5.0f, 0, 2.0f);
+			DrawDebugSphere(GetWorld(), HitResult.Location, 5.0f, 12, FColor::Red, false, 5.0f);
+		}
+		else
+		{
+			DrawDebugLine(GetWorld(), CameraLocation, EndLocation, FColor::Red, false, 5.0f, 0, 2.0f);
+		}
+	#endif
 }
 
 void APlayerCharacter::CreateHUDWidget()
