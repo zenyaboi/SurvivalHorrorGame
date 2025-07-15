@@ -5,6 +5,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "SurvivalHorrorGame/Inventory/InventoryComponent.h"
+#include "SurvivalHorrorGame/UI/W_HUD.h"
 
 // Sets default values
 APlayerCharacter::APlayerCharacter()
@@ -52,12 +53,16 @@ APlayerCharacter::APlayerCharacter()
 	Flashlight = CreateDefaultSubobject<USpotLightComponent>(TEXT("Flashlight"));
 	Flashlight->SetupAttachment(FlashlightBoom);
 	isFlashlightOn = false;
+
+	HUDWidget = nullptr;
 }
 
 // Called when the game starts or when spawned
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	CreateHUDWidget();
 }
 
 // Called every frame
@@ -152,5 +157,17 @@ void APlayerCharacter::ToggleInventory()
 	if (InventoryComponent)
 	{
 		InventoryComponent->ToggleInventory();
+	}
+}
+
+void APlayerCharacter::CreateHUDWidget()
+{
+	if (HUDWidgetClass && !HUDWidget)
+	{
+		HUDWidget = CreateWidget<UW_HUD>(GetWorld(), HUDWidgetClass);
+		if (HUDWidget)
+		{
+			HUDWidget->AddToViewport();
+		}
 	}
 }

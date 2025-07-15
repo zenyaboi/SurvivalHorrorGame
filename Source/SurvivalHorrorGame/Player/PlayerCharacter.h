@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "SurvivalHorrorGame/Inventory/InventoryComponent.h"
+#include "SurvivalHorrorGame/UI/W_HUD.h"
 #include "PlayerCharacter.generated.h"
 
 UCLASS()
@@ -46,12 +47,21 @@ protected:
 	// Misc
 	void FlashlightToggle();
 	void ToggleInventory();
+
+	// UI Functions
+	void CreateHUDWidget();
 public:
 	// Camera Sensitivity
 	UPROPERTY(EditAnywhere, Category = Camera);
 	float HorizontalSensitivity;
 	UPROPERTY(EditAnywhere, Category = Camera);
 	float VerticalSensitivity;
+
+	// Widget References
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI");
+	TSubclassOf<UUserWidget> HUDWidgetClass;
+	UPROPERTY(BlueprintReadOnly, Category = "UI")
+	UW_HUD* HUDWidget;
 protected:
 	float WalkSpeed;
 	float RunningSpeed;
