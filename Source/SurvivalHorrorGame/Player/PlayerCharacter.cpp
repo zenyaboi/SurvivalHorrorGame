@@ -8,6 +8,7 @@
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "SurvivalHorrorGame/Interfaces/Interact.h"
 #include "SurvivalHorrorGame/Inventory/InventoryComponent.h"
 #include "SurvivalHorrorGame/UI/W_HUD.h"
 
@@ -194,6 +195,12 @@ void APlayerCharacter::Interact()
 		if (HitActor)
 		{
 			UE_LOG(LogTemp, Warning, TEXT("Interagindo com: %s"), *HitActor->GetName());
+			IInteract* InteractInterface = Cast<IInteract>(HitActor);
+			if (InteractInterface)
+			{
+				bool isInteracting = IInteract::Execute_Interact(HitActor, this);
+				
+			}
 		}
 	}
 	else
