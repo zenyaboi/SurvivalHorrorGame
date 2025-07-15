@@ -200,6 +200,19 @@ void APlayerCharacter::Interact()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Nenhum objeto encontrado"));
 	}
+
+	// Debug
+	#if WITH_EDITOR
+		if (hit)
+		{
+			DrawDebugLine(GetWorld(), CameraLocation, HitResult.Location, FColor::Green, false, 5.0f, 0, 2.0f);
+			DrawDebugSphere(GetWorld(), HitResult.Location, 5.0f, 12, FColor::Red, false, 5.0f);
+		}
+		else
+		{
+			DrawDebugLine(GetWorld(), CameraLocation, EndLocation, FColor::Red, false, 5.0f, 0, 2.0f);
+		}
+	#endif
 }
 
 void APlayerCharacter::CreateHUDWidget()
