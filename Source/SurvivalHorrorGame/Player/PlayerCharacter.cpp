@@ -1,5 +1,9 @@
 #include "SurvivalHorrorGame/Player/PlayerCharacter.h"
 #include "Camera/CameraComponent.h"
+#include "Engine/Engine.h"
+#include "DrawDebugHelpers.h"
+#include "CollisionQueryParams.h"
+#include "Engine/World.h"
 #include "Components/SpotLightComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -55,6 +59,8 @@ APlayerCharacter::APlayerCharacter()
 	isFlashlightOn = false;
 
 	HUDWidget = nullptr;
+
+	InteractionRange = 300.0f;
 }
 
 // Called when the game starts or when spawned
@@ -166,8 +172,11 @@ void APlayerCharacter::Interact()
 	FVector CameraLocation = Camera->GetComponentLocation();
 	FVector CameraForward = Camera->GetForwardVector();
 
-	UE_LOG(LogTemp, Warning, TEXT("Camera Location: %s"), *CameraLocation.ToString());
-	UE_LOG(LogTemp, Warning, TEXT("Camera Forward: %s"), *CameraForward.ToString());
+	FVector EndLocation = CameraLocation + (CameraForward * InteractionRange);
+
+	FCollisionQueryParams QueryParams;
+	QueryParams.AddIgnoredActor(this);
+	QueryParams.bTraceComplex = true;
 }
 
 void APlayerCharacter::CreateHUDWidget()
