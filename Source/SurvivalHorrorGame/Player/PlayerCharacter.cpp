@@ -177,6 +177,15 @@ void APlayerCharacter::Interact()
 	FCollisionQueryParams QueryParams;
 	QueryParams.AddIgnoredActor(this);
 	QueryParams.bTraceComplex = true;
+
+	FHitResult HitResult;
+	bool hit = GetWorld()->LineTraceSingleByChannel(
+		HitResult,
+		CameraLocation,
+		EndLocation,
+		ECC_Visibility,
+		QueryParams
+	);
 }
 
 void APlayerCharacter::CreateHUDWidget()
