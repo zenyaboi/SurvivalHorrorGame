@@ -47,6 +47,7 @@ protected:
 	// Misc
 	void FlashlightToggle();
 	void ToggleInventory();
+	void Interact();
 
 	// UI Functions
 	void CreateHUDWidget();

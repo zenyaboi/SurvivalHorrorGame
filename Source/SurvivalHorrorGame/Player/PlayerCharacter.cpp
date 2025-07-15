@@ -96,6 +96,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	// Misc
 	PlayerInputComponent->BindAction("FlashlightToggle", IE_Pressed, this, &APlayerCharacter::FlashlightToggle);
 	PlayerInputComponent->BindAction("ToggleInventory", IE_Pressed, this, &APlayerCharacter::ToggleInventory);
+	PlayerInputComponent->BindAction("InteractKey", IE_Pressed, this,  &APlayerCharacter::Interact);
 }
 
 void APlayerCharacter::MoveForward(float InputValue)
