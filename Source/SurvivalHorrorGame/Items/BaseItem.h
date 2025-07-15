@@ -50,7 +50,7 @@ public:
 
 	// Item Mesh Variables
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseItem|Mesh")
-	UStaticMeshComponent* ItemMesh;
+	UStaticMesh* ItemMesh;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseItem|Mesh")
 	FText ItemName;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseItem|Mesh")

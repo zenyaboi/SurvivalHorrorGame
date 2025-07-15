@@ -42,8 +42,10 @@ void ABaseItem::BeginPlay()
 			OuterIcon = Icon;
 	}
 
+	// Finding the Static Mesh in Actor and putting it in the variable
 	UStaticMeshComponent* staticMesh;
 	staticMesh = this->FindComponentByClass<UStaticMeshComponent>();
+	staticMesh->SetStaticMesh(ItemMesh);
 	
 	if (InnerIcon)
 	{
