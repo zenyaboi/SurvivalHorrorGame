@@ -2,6 +2,10 @@
 #include "Camera/CameraComponent.h"
 #include "Components/SpotLightComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Engine/Engine.h"
+#include "DrawDebugHelpers.h"
+#include "CollisionQueryParams.h"
+#include "Engine/World.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "SurvivalHorrorGame/Inventory/InventoryComponent.h"
@@ -55,6 +59,8 @@ APlayerCharacter::APlayerCharacter()
 	isFlashlightOn = false;
 
 	HUDWidget = nullptr;
+
+	InteractionRange = 300.0f;
 }
 
 // Called when the game starts or when spawned
@@ -159,6 +165,15 @@ void APlayerCharacter::ToggleInventory()
 	{
 		InventoryComponent->ToggleInventory();
 	}
+}
+
+void APlayerCharacter::Interact()
+{
+	FVector CameraLocation = Camera->GetComponentLocation();
+	FVector CameraForward = Camera->GetForwardVector();
+
+	UE_LOG(LogTemp, Warning, TEXT("Camera Location: %s"), *CameraLocation.ToString());
+	UE_LOG(LogTemp, Warning, TEXT("Camera Forward: %s"), *CameraForward.ToString());
 }
 
 void APlayerCharacter::CreateHUDWidget()
