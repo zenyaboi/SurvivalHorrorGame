@@ -161,6 +161,15 @@ void APlayerCharacter::ToggleInventory()
 	}
 }
 
+void APlayerCharacter::Interact()
+{
+	FVector CameraLocation = Camera->GetComponentLocation();
+	FVector CameraForward = Camera->GetForwardVector();
+
+	UE_LOG(LogTemp, Warning, TEXT("Camera Location: %s"), *CameraLocation.ToString());
+	UE_LOG(LogTemp, Warning, TEXT("Camera Forward: %s"), *CameraForward.ToString());
+}
+
 void APlayerCharacter::CreateHUDWidget()
 {
 	if (HUDWidgetClass && !HUDWidget)
