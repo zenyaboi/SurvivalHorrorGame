@@ -12,7 +12,9 @@ ABaseItem::ABaseItem()
 	isInnerOverlapped = false;
 	isOuterOverlapped = false;
 
-	iconLocation = FVector(0, 0, 30);
+	iconZPosition = 30.f;
+
+	iconLocation = FVector(0, 0, iconZPosition);
 }
 
 // Called when the game starts or when spawned
@@ -49,6 +51,15 @@ void ABaseItem::BeginPlay()
 
 	if (staticMesh->GetStaticMesh() == nullptr)
 		return;
+
+	// Getting Mesh Scale
+	ItemScale = staticMesh->GetComponentScale();
+	ItemScale = FVector(.2, .2f, .2f); // Debug
+	staticMesh->SetRelativeScale3D(ItemScale);
+
+	// Changing Icon's Z Position according to the Mesh Scale
+	iconZPosition = ItemScale.Z * 2;
+	iconLocation = FVector(0, 0, iconZPosition * 100);
 	
 	if (InnerIcon)
 	{

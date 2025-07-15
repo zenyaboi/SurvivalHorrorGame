@@ -43,6 +43,7 @@ protected:
 
 	bool isInnerOverlapped;
 	bool isOuterOverlapped;
+	float iconZPosition;
 
 public:	
 	// Called every frame
