@@ -1,6 +1,7 @@
 #include "SurvivalHorrorGame/Items/BaseItem.h"
 #include "Components/SphereComponent.h"
 #include "Components/BillboardComponent.h"
+#include "Components/StaticMeshComponent.h"
 
 // Sets default values
 ABaseItem::ABaseItem()
@@ -40,6 +41,9 @@ void ABaseItem::BeginPlay()
 		else if (Icon->GetName().Contains(TEXT("outer")))
 			OuterIcon = Icon;
 	}
+
+	UStaticMeshComponent* staticMesh;
+	staticMesh = this->FindComponentByClass<UStaticMeshComponent>();
 	
 	if (InnerIcon)
 	{
