@@ -47,4 +47,26 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	// Item Mesh Variables
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseItem|Mesh")
+	UStaticMeshComponent* ItemMesh;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseItem|Mesh")
+	FText ItemName;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseItem|Mesh")
+	FText ItemDescription;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseItem|Mesh")
+	FVector ItemScale;
+	// Item Inspect Variables
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseItem|Inspect")
+	bool isInspect;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseItem|Inspect")
+	FRotator itemInspectionRotation;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseItem|Inspect")
+	FVector itemInspectionScale;
+	// Item Setting Variables
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseItem")
+	FVector iconLocation;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseItem")
+	bool isDebug;
 };
