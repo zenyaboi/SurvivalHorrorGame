@@ -10,6 +10,8 @@ ABaseItem::ABaseItem()
 
 	isInnerOverlapped = false;
 	isOuterOverlapped = false;
+
+	iconLocation = FVector(0, 0, 30);
 }
 
 // Called when the game starts or when spawned
@@ -39,8 +41,16 @@ void ABaseItem::BeginPlay()
 			OuterIcon = Icon;
 	}
 	
-	if (InnerIcon) InnerIcon->SetVisibility(false);
-	if (OuterIcon) OuterIcon->SetVisibility(false);
+	if (InnerIcon)
+	{
+		InnerIcon->SetVisibility(false);
+		InnerIcon->SetRelativeLocation(iconLocation);
+	}
+	if (OuterIcon)
+	{
+		OuterIcon->SetVisibility(false);
+		OuterIcon->SetRelativeLocation(iconLocation);
+	}
 	
 	if (InnerSphere)
 	{
