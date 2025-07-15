@@ -46,6 +46,9 @@ void ABaseItem::BeginPlay()
 	UStaticMeshComponent* staticMesh;
 	staticMesh = this->FindComponentByClass<UStaticMeshComponent>();
 	staticMesh->SetStaticMesh(ItemMesh);
+
+	if (staticMesh->GetStaticMesh() == nullptr)
+		return;
 	
 	if (InnerIcon)
 	{
