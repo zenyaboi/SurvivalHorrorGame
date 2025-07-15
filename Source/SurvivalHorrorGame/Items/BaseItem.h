@@ -2,6 +2,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Components/StaticMeshComponent.h"
+#include "Components/SphereComponent.h"
+#include "Components/BillboardComponent.h"
 #include "BaseItem.generated.h"
 
 UCLASS()
@@ -20,4 +23,15 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="BaseItem")
+	UStaticMeshComponent* BaseMesh;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="BaseItem")
+	USphereComponent* OuterSphereCollision;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="BaseItem")
+	USphereComponent* InnerSphereCollision;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="BaseItem")
+	UBillboardComponent* InnerInteractIcon;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="BaseItem")
+	UBillboardComponent* OuterInteractIcon;
 };
