@@ -117,7 +117,6 @@ bool ABaseItem::Interact_Implementation(ACharacter* Interactor)
 		UInventoryComponent* InventoryComponent = Player->GetInventoryComponent();
 		
 		InventoryComponent->AddItemToInventory(this);
-		
 		return true;
 	}
 	else

@@ -21,6 +21,8 @@ void UInventoryComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
+	Items.SetNum(InventorySize);
+
 	if (WInventoryGridClass)
 	{
 		InventoryReference = CreateWidget<UUserWidget>(GetWorld(), WInventoryGridClass);
@@ -102,6 +104,8 @@ void UInventoryComponent::ToggleInventory()
 
 FAddItemResult UInventoryComponent::AddItemToInventory(ABaseItem* Item)
 {
+	UE_LOG(LogTemp, Warning, TEXT("Adicionei"));
+	
 	FAddItemResult Result;
 	FStackCheckResult shouldStack;
 	
@@ -110,8 +114,11 @@ FAddItemResult UInventoryComponent::AddItemToInventory(ABaseItem* Item)
 		UE_LOG(LogTemp, Warning, TEXT("Item inválido"));
 		return Result;
 	}
+
+	UE_LOG(LogTemp, Warning, TEXT("Válido"));
 	
 	FItemData InteractedItem = Item->GetItemDataConstRef();
+	UE_LOG(LogTemp, Warning, TEXT("Peguei"));
 
 	if (!InteractedItem.isItemInventory)
 	{
@@ -119,9 +126,11 @@ FAddItemResult UInventoryComponent::AddItemToInventory(ABaseItem* Item)
 		Result.WasAdded = false;
 		return Result;
 	}
+
+	UE_LOG(LogTemp, Warning, TEXT("Item é para inventário"));
 	
 	int32 CurrentIndex = 0;
-	for (int32 i =0; i < Items.Num(); i++)
+	for (int32 i = 0; i < Items.Num(); i++)
 	{
 		FItemData& CurrentItem = Items[i];
 		CurrentIndex = i;

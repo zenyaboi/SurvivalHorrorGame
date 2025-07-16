@@ -206,7 +206,6 @@ void APlayerCharacter::Interact()
 			if (InteractInterface)
 			{
 				bool InteractionResult = IInteract::Execute_Interact(HitActor, this);
-
 				if (InteractionResult)
 				{
 					isInteracting = true;
