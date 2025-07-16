@@ -12,6 +12,8 @@ UInventoryComponent::UInventoryComponent()
 	InventorySize = 12;
 
 	isInventoryVisible = false;
+	maxStack = 30;
+	currentStack = 0;
 }
 
 // Called when the game starts
@@ -101,6 +103,7 @@ void UInventoryComponent::ToggleInventory()
 FAddItemResult UInventoryComponent::AddItemToInventory(ABaseItem* Item)
 {
 	FAddItemResult Result;
+	FStackCheckResult shouldStack
 	
 	if (!IsValid(Item))
 	{
@@ -110,12 +113,24 @@ FAddItemResult UInventoryComponent::AddItemToInventory(ABaseItem* Item)
 
 	int32 CurrentIndex = 0;
 	
-	ABaseItem* InteractedItem = Item;
+	FItemData InteractedItem = Item->GetItemDataConstRef();
 
 	for (FItemData item : Items)
 	{
 		CurrentIndex++;
 		UE_LOG(LogTemp, Warning, TEXT("Current index: %d"), CurrentIndex);
+		shouldStack = ShouldStackItems(item, InteractedItem);
+		UE_LOG(LogTemp, Warning, TEXT("Is Stackable: %hhd"), shouldStack.CanStack)
+
+		if (shouldStack.CanStack)
+		{
+			currentStack = shouldStack.NewQuantity;
+			
+		}
+		else
+		{
+			bool spaceInInv = hasSpaceInventory(shouldStack.NewQuantity);
+		}
 	}
 }
 
@@ -148,8 +163,7 @@ FStackCheckResult UInventoryComponent::ShouldStackItems(FItemData itemFromInv, F
 	}
 
 	// Checking stack amount
-	int32 currentStack = itemCurrentActor.ItemAmount + itemFromInv.ItemAmount;
-	int32 maxStack = 30;
+	currentStack = itemCurrentActor.ItemAmount + itemFromInv.ItemAmount;
 	if (currentStack > maxStack)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Too much shit"));
@@ -167,4 +181,14 @@ FStackCheckResult UInventoryComponent::ShouldStackItems(FItemData itemFromInv, F
 		
 		return Result;
 	}
+}
+
+bool UInventoryComponent::hasSpaceInventory(int32 amountInInv)
+{
+	if (amountInInv != 0)
+	{
+		return false;
+	}
+
+	return true
 }

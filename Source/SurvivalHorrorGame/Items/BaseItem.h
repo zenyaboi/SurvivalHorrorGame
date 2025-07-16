@@ -75,4 +75,7 @@ public:
 	void BreakItemDataBlueprint(FText& Name, FText& Description, bool& Stackable, 
 							   int32& Amount, UStaticMesh*& Mesh, UTexture2D*& Image, 
 							   bool& Healable, int32& HealAmount);
+
+	UFUNCTION(BlueprintCallable, Category = "BaseItem|Inventory")
+	const FItemData& GetItemDataConstRef() const { return Item; }
 };
