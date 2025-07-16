@@ -1,10 +1,16 @@
 #include "SurvivalHorrorGame/Player/PlayerCharacter.h"
 #include "Camera/CameraComponent.h"
+#include "Engine/Engine.h"
+#include "DrawDebugHelpers.h"
+#include "CollisionQueryParams.h"
+#include "Engine/World.h"
 #include "Components/SpotLightComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "SurvivalHorrorGame/Interfaces/Interact.h"
 #include "SurvivalHorrorGame/Inventory/InventoryComponent.h"
+#include "SurvivalHorrorGame/UI/W_HUD.h"
 
 // Sets default values
 APlayerCharacter::APlayerCharacter()
@@ -52,12 +58,20 @@ APlayerCharacter::APlayerCharacter()
 	Flashlight = CreateDefaultSubobject<USpotLightComponent>(TEXT("Flashlight"));
 	Flashlight->SetupAttachment(FlashlightBoom);
 	isFlashlightOn = false;
+
+	HUDWidget = nullptr;
+
+	InteractionRange = 300.0f;
+	
+	isInteracting = false;
 }
 
 // Called when the game starts or when spawned
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	CreateHUDWidget();
 }
 
 // Called every frame
@@ -91,6 +105,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	// Misc
 	PlayerInputComponent->BindAction("FlashlightToggle", IE_Pressed, this, &APlayerCharacter::FlashlightToggle);
 	PlayerInputComponent->BindAction("ToggleInventory", IE_Pressed, this, &APlayerCharacter::ToggleInventory);
+	PlayerInputComponent->BindAction("InteractKey", IE_Pressed, this,  &APlayerCharacter::Interact);
 }
 
 void APlayerCharacter::MoveForward(float InputValue)
@@ -152,5 +167,98 @@ void APlayerCharacter::ToggleInventory()
 	if (InventoryComponent)
 	{
 		InventoryComponent->ToggleInventory();
+	}
+}
+
+void APlayerCharacter::Interact()
+{
+	if (isInteracting)
+	{
+		return;
+	}
+	
+	FVector CameraLocation = Camera->GetComponentLocation();
+	FVector CameraForward = Camera->GetForwardVector();
+
+	FVector EndLocation = CameraLocation + (CameraForward * InteractionRange);
+
+	FCollisionQueryParams QueryParams;
+	QueryParams.AddIgnoredActor(this);
+	QueryParams.bTraceComplex = true;
+
+	FHitResult HitResult;
+	bool hit = GetWorld()->LineTraceSingleByChannel(
+		HitResult,
+		CameraLocation,
+		EndLocation,
+		ECC_Visibility,
+		QueryParams
+	);
+
+	if (hit)
+	{
+		AActor* HitActor = HitResult.GetActor();
+
+		if (HitActor)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Interagindo com: %s"), *HitActor->GetName());
+			IInteract* InteractInterface = Cast<IInteract>(HitActor);
+			if (InteractInterface)
+			{
+				bool InteractionResult = IInteract::Execute_Interact(HitActor, this);
+
+				if (InteractionResult)
+				{
+					isInteracting = true;
+
+					GetWorld()->GetTimerManager().SetTimer(
+						InteractionTimerHandle,
+						this,
+						&APlayerCharacter::ResetInteractionState,
+						1.0f,
+						false
+					);
+				}
+			}
+			else
+			{
+				isInteracting = false;
+			}
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Nenhum objeto encontrado"));
+	}
+
+	// Debug
+	#if WITH_EDITOR
+		if (hit)
+		{
+			DrawDebugLine(GetWorld(), CameraLocation, HitResult.Location, FColor::Green, false, 5.0f, 0, 2.0f);
+			DrawDebugSphere(GetWorld(), HitResult.Location, 5.0f, 12, FColor::Red, false, 5.0f);
+		}
+		else
+		{
+			DrawDebugLine(GetWorld(), CameraLocation, EndLocation, FColor::Red, false, 5.0f, 0, 2.0f);
+		}
+	#endif
+}
+
+void APlayerCharacter::ResetInteractionState()
+{
+	isInteracting = false;
+	UE_LOG(LogTemp, Warning, TEXT("Interação resetada"));
+}
+
+void APlayerCharacter::CreateHUDWidget()
+{
+	if (HUDWidgetClass && !HUDWidget)
+	{
+		HUDWidget = CreateWidget<UW_HUD>(GetWorld(), HUDWidgetClass);
+		if (HUDWidget)
+		{
+			HUDWidget->AddToViewport();
+		}
 	}
 }
