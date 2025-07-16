@@ -3,8 +3,63 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "S_ItemData.h"
+#include "SurvivalHorrorGame/Items/BaseItem.h"
 #include "Blueprint/UserWidget.h"
 #include "InventoryComponent.generated.h"
+
+// Struct Check Stack
+USTRUCT(BlueprintType)
+struct FStackCheckResult
+{
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadWrite, Category = "Inventory")
+	bool CanStack;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Inventory")
+	int32 NewQuantity;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Inventory")
+	bool ReachedMaxStack;
+
+	FStackCheckResult()
+	{
+		CanStack = false;
+		NewQuantity = 0;
+		ReachedMaxStack = false;
+	}
+};
+
+// Struct Add Item
+USTRUCT(BlueprintType)
+struct FAddItemResult
+{
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadWrite, Category = "Inventory")
+	bool WasAdded;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Inventory")
+	int32 TargetSlotIndex;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Inventory")
+	bool WasStacked;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Inventory")
+	int32 FinalQuantity;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Inventory")
+	FString ErrorMessage;
+
+	FAddItemResult()
+	{
+		WasAdded = false;
+		TargetSlotIndex = -1;
+		WasStacked = false;
+		FinalQuantity = 0;
+		ErrorMessage = TEXT("");
+	}
+};
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class SURVIVALHORRORGAME_API UInventoryComponent : public UActorComponent
@@ -40,6 +95,18 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	void ToggleInventory();
+
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	FAddItemResult AddItemToInventory(ABaseItem* Item);
+
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	FStackCheckResult ShouldStackItems(FItemData itemFromInv, FItemData itemCurrentActor);
+
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	int32 FindEmptySlot();
+
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	int32 FindStackableItem(ABaseItem* Item);
 
 	UPROPERTY(BlueprintReadWrite, Category = "Inventory")
 	bool isInventoryVisible;

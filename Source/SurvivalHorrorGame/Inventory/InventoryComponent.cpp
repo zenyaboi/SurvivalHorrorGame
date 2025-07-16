@@ -97,3 +97,31 @@ void UInventoryComponent::ToggleInventory()
 		UE_LOG(LogTemp, Warning, TEXT("Widget removido e input mode revertido!"));
 	}
 }
+
+FAddItemResult UInventoryComponent::AddItemToInventory(ABaseItem* Item)
+{
+	FAddItemResult Result;
+	
+	if (!IsValid(Item))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Item inválido"));
+		return Result;
+	}
+
+	int32 CurrentIndex = 0;
+	
+	ABaseItem* InteractedItem = Item;
+
+	for (FItemData item : Items)
+	{
+		CurrentIndex++;
+		UE_LOG(LogTemp, Warning, TEXT("Current index: %d"), CurrentIndex);
+	}
+}
+
+FStackCheckResult UInventoryComponent::ShouldStackItems(FItemData itemFromInv, FItemData itemCurrentActor)
+{
+	FStackCheckResult Result;
+
+	return Result;
+}
