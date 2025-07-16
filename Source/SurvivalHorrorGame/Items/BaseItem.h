@@ -2,10 +2,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "SurvivalHorrorGame/Interfaces/Interact.h"
 #include "BaseItem.generated.h"
 
 UCLASS()
-class SURVIVALHORRORGAME_API ABaseItem : public AActor
+class SURVIVALHORRORGAME_API ABaseItem : public AActor, public IInteract
 {
 	GENERATED_BODY()
 	
@@ -45,6 +46,7 @@ protected:
 	bool isOuterOverlapped;
 	float iconZPosition;
 
+	virtual bool Interact_Implementation(ACharacter* Interactor);
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

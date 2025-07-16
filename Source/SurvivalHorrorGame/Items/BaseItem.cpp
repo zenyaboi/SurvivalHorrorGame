@@ -2,6 +2,7 @@
 #include "Components/SphereComponent.h"
 #include "Components/BillboardComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "SurvivalHorrorGame/Player/PlayerCharacter.h" 
 
 // Sets default values
 ABaseItem::ABaseItem()
@@ -90,6 +91,24 @@ void ABaseItem::Tick(float DeltaTime)
 	if (isInnerOverlapped || !isOuterOverlapped) OuterIcon->SetVisibility(false);
 	else if (!isInnerOverlapped || isOuterOverlapped) OuterIcon->SetVisibility(true);
 }
+
+bool ABaseItem::Interact_Implementation(ACharacter* Interactor)
+{
+	UE_LOG(LogTemp, Warning, TEXT("BaseItem: Interagindo com %s"), *ItemName.ToString());
+
+	APlayerCharacter* Player = Cast<APlayerCharacter>(Interactor);
+	if (Player)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Cast para PlayerCharacter bem-sucedido!"));
+		return true;
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Cast para PlayerCharacter falhou!"));
+		return false;
+	}
+}
+
 
 void ABaseItem::OnInnerBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
