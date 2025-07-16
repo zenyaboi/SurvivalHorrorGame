@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "SurvivalHorrorGame/Interfaces/Interact.h"
+#include "SurvivalHorrorGame/Inventory/S_ItemData.h"
 #include "BaseItem.generated.h"
 
 UCLASS()
@@ -47,6 +48,9 @@ protected:
 	float iconZPosition;
 
 	virtual bool Interact_Implementation(ACharacter* Interactor);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseItem|Inventory")
+	FItemData Item;
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
