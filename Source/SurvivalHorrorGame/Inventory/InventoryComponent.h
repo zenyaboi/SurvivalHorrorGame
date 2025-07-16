@@ -103,10 +103,15 @@ public:
 	FStackCheckResult ShouldStackItems(FItemData itemFromInv, FItemData itemCurrentActor);
 
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	int32 FindEmptySlot();
+	
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	bool hasSpaceInventory(int32 amountInInv);
 
 	UPROPERTY(BlueprintReadWrite, Category = "Inventory")
 	bool isInventoryVisible;
+
+	void DestroyItem(ABaseItem* Item);
 protected:
 	int32 currentStack;
 	int32 maxStack;
