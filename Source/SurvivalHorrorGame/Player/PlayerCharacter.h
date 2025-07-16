@@ -63,6 +63,9 @@ public:
 	TSubclassOf<UUserWidget> HUDWidgetClass;
 	UPROPERTY(BlueprintReadOnly, Category = "UI")
 	UW_HUD* HUDWidget;
+
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	UInventoryComponent* GetInventoryComponent() const { return InventoryComponent; }
 protected:
 	float WalkSpeed;
 	float RunningSpeed;
