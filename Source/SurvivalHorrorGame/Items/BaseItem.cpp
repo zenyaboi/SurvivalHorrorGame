@@ -114,6 +114,10 @@ bool ABaseItem::Interact_Implementation(ACharacter* Interactor)
 	if (Player)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Cast para PlayerCharacter bem-sucedido!"));
+		UInventoryComponent* InventoryComponent = Player->GetInventoryComponent();
+		
+		InventoryComponent->AddItemToInventory(this);
+		
 		return true;
 	}
 	else
