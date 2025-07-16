@@ -110,22 +110,39 @@ FAddItemResult UInventoryComponent::AddItemToInventory(ABaseItem* Item)
 		UE_LOG(LogTemp, Warning, TEXT("Item inválido"));
 		return Result;
 	}
-
-	int32 CurrentIndex = 0;
 	
 	FItemData InteractedItem = Item->GetItemDataConstRef();
 
-	for (FItemData item : Items)
+	if (!InteractedItem.isItemInventory)
 	{
-		CurrentIndex++;
+		UE_LOG(LogTemp, Warning, TEXT("Item não é para inventário"));
+		Result.WasAdded = false;
+		return Result;
+	}
+	
+	int32 CurrentIndex = 0;
+	for (int32 i =0; i < Items.Num(); i++)
+	{
+		FItemData& CurrentItem = Items[i];
+		CurrentIndex = i;
+
 		UE_LOG(LogTemp, Warning, TEXT("Current index: %d"), CurrentIndex);
-		shouldStack = ShouldStackItems(item, InteractedItem);
-		UE_LOG(LogTemp, Warning, TEXT("Is Stackable: %hhd"), shouldStack.CanStack)
+
+		shouldStack = ShouldStackItems(CurrentItem, InteractedItem);
+		UE_LOG(LogTemp, Warning, TEXT("Is Stackable: %hhd"), shouldStack.CanStack);
 
 		if (shouldStack.CanStack)
 		{
-			currentStack = shouldStack.NewQuantity;
-			
+			CurrentItem.ItemAmount = shouldStack.NewQuantity;
+
+			Result.WasAdded = true;
+			Result.TargetSlotIndex = CurrentIndex;
+			Result.WasStacked = true;
+			Result.FinalQuantity = shouldStack.NewQuantity;
+
+			RefreshInventory();
+			UE_LOG(LogTemp, Warning, TEXT("Item empilhado no índice %d com quantidade %d"), CurrentIndex, shouldStack.NewQuantity);
+			return Result;
 		}
 		else
 		{
