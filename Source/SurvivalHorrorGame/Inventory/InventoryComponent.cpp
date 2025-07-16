@@ -133,56 +133,46 @@ FAddItemResult UInventoryComponent::AddItemToInventory(ABaseItem* Item)
 	for (int32 i = 0; i < Items.Num(); i++)
 	{
 		FItemData& CurrentItem = Items[i];
-		CurrentIndex = i;
 
-		UE_LOG(LogTemp, Warning, TEXT("Current index: %d"), CurrentIndex);
-
-		shouldStack = ShouldStackItems(CurrentItem, InteractedItem);
-		UE_LOG(LogTemp, Warning, TEXT("Is Stackable: %hhd"), shouldStack.CanStack);
-
-		if (shouldStack.CanStack)
+		// Tenta empilhar apenas se o slot tem algo
+		if (CurrentItem.ItemAmount > 0 && !CurrentItem.ItemName.IsEmpty())
 		{
-			CurrentItem.ItemAmount = shouldStack.NewQuantity;
-
-			Result.WasAdded = true;
-			Result.TargetSlotIndex = CurrentIndex;
-			Result.WasStacked = true;
-			Result.FinalQuantity = shouldStack.NewQuantity;
-
-			DestroyItem(Item);
-			RefreshInventory();
-			UE_LOG(LogTemp, Warning, TEXT("Item empilhado no índice %d com quantidade %d"), CurrentIndex, shouldStack.NewQuantity);
-			return Result;
-		}
-		else
-		{
-			bool spaceInInv = hasSpaceInventory(shouldStack.NewQuantity);
-			if (spaceInInv)
+			shouldStack = ShouldStackItems(CurrentItem, InteractedItem);
+			if (shouldStack.CanStack)
 			{
-				int32 EmptySlot = FindEmptySlot();
-				if (EmptySlot != -1)
-				{
-					if (EmptySlot >= Items.Num())
-						Items.SetNum(EmptySlot + 1);
-					Items[EmptySlot] = InteractedItem;
+				CurrentItem.ItemAmount = shouldStack.NewQuantity;
 
-					Result.WasAdded = true;
-					Result.TargetSlotIndex = EmptySlot;
-					Result.WasStacked = false;
-					Result.FinalQuantity = InteractedItem.ItemAmount;
+				Result.WasAdded = true;
+				Result.TargetSlotIndex = i;
+				Result.WasStacked = true;
+				Result.FinalQuantity = shouldStack.NewQuantity;
 
-					DestroyItem(Item);
-					RefreshInventory();
-					UE_LOG(LogTemp, Warning, TEXT("Item adicionado no slot vazio %d"), EmptySlot);
-					return Result;
-				}
+				DestroyItem(Item);
+				RefreshInventory();
+				return Result;
 			}
-			Result.WasAdded = false;
-			Result.ErrorMessage = TEXT("Inventário cheio ou sem espaço");
-			return Result;
 		}
 	}
 
+	int32 EmptySlot = FindEmptySlot();
+	if (EmptySlot != -1)
+	{
+		if (EmptySlot >= Items.Num())
+			Items.SetNum(EmptySlot + 1);
+		Items[EmptySlot] = InteractedItem;
+
+		Result.WasAdded = true;
+		Result.TargetSlotIndex = EmptySlot;
+		Result.WasStacked = false;
+		Result.FinalQuantity = InteractedItem.ItemAmount;
+
+		DestroyItem(Item);
+		RefreshInventory();
+		return Result;
+	}
+
+	Result.WasAdded = false;
+	Result.ErrorMessage = TEXT("Inventário cheio ou sem espaço");
 	return Result;
 }
 
@@ -237,12 +227,14 @@ FStackCheckResult UInventoryComponent::ShouldStackItems(FItemData itemFromInv, F
 
 bool UInventoryComponent::hasSpaceInventory(int32 amountInInv)
 {
-	if (amountInInv != 0)
+	for (const FItemData& Item : Items)
 	{
-		return false;
+		if (Item.ItemName.IsEmpty() || Item.ItemAmount <= 0)
+		{
+			return true;
+		}
 	}
-
-	return true;
+	return false;
 }
 
 int32 UInventoryComponent::FindEmptySlot()
