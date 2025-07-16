@@ -105,12 +105,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	bool hasSpaceInventory(int32 amountInInv);
 
-	UFUNCTION(BlueprintCallable, Category = "Inventory")
-	int32 FindEmptySlot();
-
-	UFUNCTION(BlueprintCallable, Category = "Inventory")
-	int32 FindStackableItem(ABaseItem* Item);
-
 	UPROPERTY(BlueprintReadWrite, Category = "Inventory")
 	bool isInventoryVisible;
 protected:

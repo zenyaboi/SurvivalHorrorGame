@@ -103,7 +103,7 @@ void UInventoryComponent::ToggleInventory()
 FAddItemResult UInventoryComponent::AddItemToInventory(ABaseItem* Item)
 {
 	FAddItemResult Result;
-	FStackCheckResult shouldStack
+	FStackCheckResult shouldStack;
 	
 	if (!IsValid(Item))
 	{
@@ -130,6 +130,10 @@ FAddItemResult UInventoryComponent::AddItemToInventory(ABaseItem* Item)
 		else
 		{
 			bool spaceInInv = hasSpaceInventory(shouldStack.NewQuantity);
+			if (spaceInInv)
+			{
+				
+			}
 		}
 	}
 }
@@ -190,5 +194,5 @@ bool UInventoryComponent::hasSpaceInventory(int32 amountInInv)
 		return false;
 	}
 
-	return true
+	return true;
 }
