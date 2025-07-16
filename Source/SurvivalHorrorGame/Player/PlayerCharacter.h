@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "SurvivalHorrorGame/Inventory/InventoryComponent.h"
+#include "SurvivalHorrorGame/UI/W_HUD.h"
 #include "PlayerCharacter.generated.h"
 
 UCLASS()
@@ -46,12 +47,22 @@ protected:
 	// Misc
 	void FlashlightToggle();
 	void ToggleInventory();
+	void Interact();
+
+	// UI Functions
+	void CreateHUDWidget();
 public:
 	// Camera Sensitivity
 	UPROPERTY(EditAnywhere, Category = Camera);
 	float HorizontalSensitivity;
 	UPROPERTY(EditAnywhere, Category = Camera);
 	float VerticalSensitivity;
+
+	// Widget References
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI");
+	TSubclassOf<UUserWidget> HUDWidgetClass;
+	UPROPERTY(BlueprintReadOnly, Category = "UI")
+	UW_HUD* HUDWidget;
 protected:
 	float WalkSpeed;
 	float RunningSpeed;
@@ -67,6 +78,16 @@ protected:
 	bool isCrouching;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Flashlight");
 	bool isFlashlightOn;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction")
+	float InteractionRange;
+
+	FTimerHandle InteractionTimerHandle;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Interaction");
+	bool isInteracting;
+
+	void ResetInteractionState();
 public:
 	UPROPERTY(EditAnywhere);
 	class USpotLightComponent* Flashlight;
