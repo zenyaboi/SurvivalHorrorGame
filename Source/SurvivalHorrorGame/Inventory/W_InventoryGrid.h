@@ -4,6 +4,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Components/WrapBox.h"
 #include "SurvivalHorrorGame/Inventory/S_ItemData.h"
+#include "Components/TextBlock.h"
 #include "W_InventoryGrid.generated.h"
 
 UCLASS()
@@ -17,6 +18,11 @@ public:
 	TArray<FItemData> Items;
 	UPROPERTY(BlueprintReadWrite, Category = "Inventory")
 	int32 InventorySize;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
+	class UTextBlock* ItemName;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
+	class UTextBlock* ItemDescription;
 
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	void RefreshInventory();

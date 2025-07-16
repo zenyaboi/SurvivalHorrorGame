@@ -1,6 +1,7 @@
 #include "SurvivalHorrorGame/Inventory/W_InventoryGrid.h"
 #include "SurvivalHorrorGame/Inventory/W_ItemSlot.h"
 #include "Components/WrapBox.h"
+#include "Components/TextBlock.h"
 #include "Components/Image.h"
 #include "InventoryComponent.h"
 #include "Components/Border.h"
@@ -10,6 +11,10 @@ void UW_InventoryGrid::NativeConstruct()
 	Super::NativeConstruct();
     
 	SetIsFocusable(true);
+
+	ItemName->SetText(FText::GetEmpty());
+	ItemDescription->SetText(FText::GetEmpty());
+	
 }
 
 void UW_InventoryGrid::RefreshInventory()
@@ -48,6 +53,8 @@ void UW_InventoryGrid::RefreshInventory()
 				SlotWidget->CurrentItem = FItemData();
 				SlotWidget->RefreshSlot();
 			}
+
+			SlotWidget->InventoryGrid = this;
 			
 			WrapBoxInventory->AddChild(SlotWidget);
 			UE_LOG(LogTemp, Warning, TEXT("Slot %d criado"), i);
