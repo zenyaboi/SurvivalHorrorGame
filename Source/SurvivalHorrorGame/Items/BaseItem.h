@@ -70,7 +70,7 @@ public:
 	FVector iconLocation;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseItem")
 	bool isDebug;
-
+	
 	UFUNCTION(BlueprintCallable, Category = "BaseItem|Inventory")
 	void BreakItemDataBlueprint(FText& Name, FText& Description, bool& Stackable, 
 							   int32& Amount, UStaticMesh*& Mesh, UTexture2D*& Image, 

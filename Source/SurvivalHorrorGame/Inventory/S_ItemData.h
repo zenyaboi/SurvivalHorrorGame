@@ -11,6 +11,8 @@ struct SURVIVALHORRORGAME_API FItemData
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool isItemInventory;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FText ItemName;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FText ItemDescription;

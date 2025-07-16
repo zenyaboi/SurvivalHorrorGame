@@ -123,5 +123,48 @@ FStackCheckResult UInventoryComponent::ShouldStackItems(FItemData itemFromInv, F
 {
 	FStackCheckResult Result;
 
-	return Result;
+	// Checking if current item is supposed to go to inv
+	if (!itemCurrentActor.isItemInventory)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Item not supposed for inventory"));
+		Result.CanStack = false;
+		return Result;
+	}
+	
+	// Checking if both item names are the same
+	if (!itemFromInv.ItemName.EqualTo(itemCurrentActor.ItemName))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Not same name"));
+		Result.CanStack = false;
+		return Result;
+	}
+
+	// Checking if item is stackable
+	if (!itemCurrentActor.isItemStackable)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Item can't stack"));
+		Result.CanStack = false;
+		return Result;
+	}
+
+	// Checking stack amount
+	int32 currentStack = itemCurrentActor.ItemAmount + itemFromInv.ItemAmount;
+	int32 maxStack = 30;
+	if (currentStack > maxStack)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Too much shit"));
+		Result.CanStack = false;
+		Result.NewQuantity = maxStack;
+		Result.ReachedMaxStack = true;
+		return Result;
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Item in inventory"));
+		Result.CanStack = true;
+		Result.NewQuantity = currentStack;
+		Result.ReachedMaxStack = false;
+		
+		return Result;
+	}
 }
