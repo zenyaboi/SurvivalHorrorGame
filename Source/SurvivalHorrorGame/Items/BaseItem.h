@@ -57,12 +57,6 @@ public:
 
 	// Item Mesh Variables
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseItem|Mesh")
-	UStaticMesh* ItemMesh;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseItem|Mesh")
-	FText ItemName;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseItem|Mesh")
-	FText ItemDescription;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseItem|Mesh")
 	FVector ItemScale;
 	// Item Inspect Variables
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseItem|Inspect")
@@ -76,4 +70,9 @@ public:
 	FVector iconLocation;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseItem")
 	bool isDebug;
+
+	UFUNCTION(BlueprintCallable, Category = "BaseItem|Inventory")
+	void BreakItemDataBlueprint(FText& Name, FText& Description, bool& Stackable, 
+							   int32& Amount, UStaticMesh*& Mesh, UTexture2D*& Image, 
+							   bool& Healable, int32& HealAmount);
 };

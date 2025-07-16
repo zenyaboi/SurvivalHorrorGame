@@ -48,7 +48,7 @@ void ABaseItem::BeginPlay()
 	// Finding the Static Mesh in Actor and putting it in the variable
 	UStaticMeshComponent* staticMesh;
 	staticMesh = this->FindComponentByClass<UStaticMeshComponent>();
-	staticMesh->SetStaticMesh(ItemMesh);
+	staticMesh->SetStaticMesh(Item.ItemMesh);
 
 	if (staticMesh->GetStaticMesh() == nullptr)
 		return;
@@ -92,9 +92,23 @@ void ABaseItem::Tick(float DeltaTime)
 	else if (!isInnerOverlapped || isOuterOverlapped) OuterIcon->SetVisibility(true);
 }
 
+void ABaseItem::BreakItemDataBlueprint(FText& Name, FText& Description, bool& Stackable, 
+									  int32& Amount, UStaticMesh*& Mesh, UTexture2D*& Image, 
+									  bool& Healable, int32& HealAmount)
+{
+	Name = Item.ItemName;
+	Description = Item.ItemDescription;
+	Stackable = Item.isItemStackable;
+	Amount = Item.ItemAmount;
+	Mesh = Item.ItemMesh;
+	Image = Item.ItemImage;
+	Healable = Item.isItemHealable;
+	HealAmount = Item.ItemHealAmount;
+}
+
 bool ABaseItem::Interact_Implementation(ACharacter* Interactor)
 {
-	UE_LOG(LogTemp, Warning, TEXT("BaseItem: Interagindo com %s"), *ItemName.ToString());
+	UE_LOG(LogTemp, Warning, TEXT("BaseItem: Interagindo com %s"), *Item.ItemName.ToString());
 
 	APlayerCharacter* Player = Cast<APlayerCharacter>(Interactor);
 	if (Player)
