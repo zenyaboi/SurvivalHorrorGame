@@ -110,5 +110,11 @@ void UW_ItemSlot::OnClicked()
 	if (!UW_Selection)
 		return;
 
+	if (UW_Selection->GetVisibility() == ESlateVisibility::Visible)
+	{
+		UW_Selection->SetVisibility(ESlateVisibility::Hidden);
+		return;
+	}
+	
 	UW_Selection->SetVisibility(ESlateVisibility::Visible);
 }
