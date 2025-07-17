@@ -25,6 +25,9 @@ public:
 	class UImage* InventorySlotImage;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	class UW_Selection* UW_Selection;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	class UTextBlock* ItemAmount;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
@@ -43,6 +46,8 @@ public:
 	void OnItemHovered();
 	UFUNCTION()
 	void OnItemUnhovered();
+	UFUNCTION()
+	void OnClicked();
 protected:
 	virtual void NativeConstruct() override;
 };

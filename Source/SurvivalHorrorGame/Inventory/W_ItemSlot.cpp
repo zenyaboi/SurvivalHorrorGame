@@ -14,6 +14,7 @@ void UW_ItemSlot::NativeConstruct()
 	{
 		ItemButton->OnHovered.AddDynamic(this, &UW_ItemSlot::OnItemHovered);
 		ItemButton->OnUnhovered.AddDynamic(this, &UW_ItemSlot::OnItemUnhovered);
+		ItemButton->OnClicked.AddDynamic(this, &UW_ItemSlot::OnClicked);
 	}
 	
 	RefreshSlot();
