@@ -20,4 +20,7 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Interact")
 	bool Interact(ACharacter* Interactor);
 	virtual bool Interact_Implementation(ACharacter* Interactor) = 0;
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Inspect")
+    void Inspect(ACharacter* Interactor, UStaticMesh* ItemMesh, FText ItemName, FText ItemDescription, UW_InventoryGrid* InventoryRef);
 };
