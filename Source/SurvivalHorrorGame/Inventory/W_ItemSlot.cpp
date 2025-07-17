@@ -1,17 +1,21 @@
-#include "SurvivalHorrorGame/Inventory/W_ItemSlot.h"
+#include "W_ItemSlot.h"
+#include "W_Selection.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
 #include "Components/Border.h"
 #include "Components/Button.h"
-#include "Components/TextBlock.h"
 #include "Engine/Texture2D.h"
-#include "Slate/SGameLayerManager.h"
 
 void UW_ItemSlot::NativeConstruct()
 {
 	Super::NativeConstruct();
 
 	PlayerController = GetWorld()->GetFirstPlayerController();
+
+	UButton* BtnHeal = Cast<UButton>(Selection->GetWidgetFromName("BTN_Heal"));
+
+	Selection->BindHealButtonEvent(BtnHeal);
+	Selection->OnHealEvent.AddDynamic(this, &UW_ItemSlot::OnHealEventTriggered);
 
 	if (ItemButton)
 	{
@@ -110,14 +114,19 @@ void UW_ItemSlot::OnClicked()
 
 	UE_LOG(LogTemp, Warning, TEXT("Item Clicked"));
 
-	if (!UW_Selection)
+	if (!Selection)
 		return;
 
-	if (UW_Selection->GetVisibility() == ESlateVisibility::Visible)
+	if (Selection->GetVisibility() == ESlateVisibility::Visible)
 	{
-		UW_Selection->SetVisibility(ESlateVisibility::Hidden);
+		Selection->SetVisibility(ESlateVisibility::Hidden);
 		return;
 	}
 	
-	UW_Selection->SetVisibility(ESlateVisibility::Visible);
+	Selection->SetVisibility(ESlateVisibility::Visible);
+}
+
+void UW_ItemSlot::OnHealEventTriggered()
+{
+	UE_LOG(LogTemp, Warning, TEXT("BITCHES ARE TRIPPING"));
 }

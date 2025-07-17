@@ -4,8 +4,6 @@
 #include "Blueprint/UserWidget.h"
 #include "S_ItemData.h"
 #include "W_InventoryGrid.h"
-#include "Components/TextBlock.h"
-#include "W_Selection.h"
 #include "SurvivalHorrorGame/Player/PlayerCharacter.h"
 #include "W_ItemSlot.generated.h"
 
@@ -26,8 +24,8 @@ public:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	class UImage* InventorySlotImage;
 
-	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-	class UW_Selection* UW_Selection;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory|Selection", meta = (BindWidget))
+	class UW_Selection* Selection;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	class UTextBlock* ItemAmount;
@@ -50,6 +48,9 @@ public:
 	void OnItemUnhovered();
 	UFUNCTION()
 	void OnClicked();
+
+	UFUNCTION()
+	void OnHealEventTriggered();
 protected:
 	virtual void NativeConstruct() override;
 	
