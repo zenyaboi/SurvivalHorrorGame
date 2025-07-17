@@ -28,9 +28,14 @@ struct SURVIVALHORRORGAME_API FItemData
 	bool isItemHealable;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 ItemHealAmount;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FRotator ItemInspectionRotation;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FVector ItemInspectionScale;
 
 	FItemData()
 	{
+		isItemInventory = true;
 		ItemName = FText::GetEmpty();
 		ItemDescription = FText::GetEmpty();
 		isItemStackable = false;
@@ -39,5 +44,7 @@ struct SURVIVALHORRORGAME_API FItemData
 		ItemImage = nullptr;
 		isItemHealable = false;
 		ItemHealAmount = 0;
+		ItemInspectionRotation = FRotator::ZeroRotator;
+		ItemInspectionScale = FVector::OneVector;
 	}
 };
