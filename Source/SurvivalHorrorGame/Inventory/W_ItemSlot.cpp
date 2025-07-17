@@ -12,10 +12,7 @@ void UW_ItemSlot::NativeConstruct()
 
 	PlayerController = GetWorld()->GetFirstPlayerController();
 
-	UButton* BtnHeal = Cast<UButton>(Selection->GetWidgetFromName("BTN_Heal"));
-
-	Selection->BindHealButtonEvent(BtnHeal);
-	Selection->OnHealEvent.AddDynamic(this, &UW_ItemSlot::OnHealEventTriggered);
+	SetupButtons();
 
 	if (ItemButton)
 	{
@@ -127,7 +124,39 @@ void UW_ItemSlot::OnClicked()
 	Selection->SetVisibility(ESlateVisibility::Visible);
 }
 
+void UW_ItemSlot::SetupButtons()
+{
+	UButton* BtnHeal = Cast<UButton>(Selection->GetWidgetFromName("BTN_Heal"));
+	UButton* BtnCombine = Cast<UButton>(Selection->GetWidgetFromName("BTN_Combine"));
+	UButton* BtnInspect = Cast<UButton>(Selection->GetWidgetFromName("BTN_Inspect"));
+	UButton* BtnDelete = Cast<UButton>(Selection->GetWidgetFromName("BTN_Delete"));
+
+	Selection->BindHealButtonEvent(BtnHeal);
+	Selection->BindCombineButtonEvent(BtnCombine);
+	Selection->BindInspectButtonEvent(BtnInspect);
+	Selection->BindDeleteButtonEvent(BtnDelete);
+	Selection->OnHealEvent.AddDynamic(this, &UW_ItemSlot::OnHealEventTriggered);
+	Selection->OnCombineEvent.AddDynamic(this, &UW_ItemSlot::OnCombineEventTriggered);
+	Selection->OnInspectEvent.AddDynamic(this, &UW_ItemSlot::OnInspectEventTriggered);
+	Selection->OnDeleteEvent.AddDynamic(this, &UW_ItemSlot::OnDeleteEventTriggered);
+}
+
 void UW_ItemSlot::OnHealEventTriggered(FItemData ItemData)
+{
+	UE_LOG(LogTemp, Warning, TEXT("BITCHES ARE TRIPPING"));
+}
+
+void UW_ItemSlot::OnCombineEventTriggered(FItemData ItemData)
+{
+	UE_LOG(LogTemp, Warning, TEXT("BITCHES ARE TRIPPING"));
+}
+
+void UW_ItemSlot::OnInspectEventTriggered(FItemData ItemData)
+{
+	UE_LOG(LogTemp, Warning, TEXT("BITCHES ARE TRIPPING"));
+}
+
+void UW_ItemSlot::OnDeleteEventTriggered(FItemData ItemData)
 {
 	UE_LOG(LogTemp, Warning, TEXT("BITCHES ARE TRIPPING"));
 }

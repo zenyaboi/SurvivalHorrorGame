@@ -4,7 +4,11 @@
 void UW_Selection::NativeConstruct()
 {
 	Super::NativeConstruct();
+}
 
+void UW_Selection::SetCurrentItem(const FItemData& ItemData)
+{
+	CurrentItemData = ItemData;
 }
 
 void UW_Selection::BindHealButtonEvent(UButton* Button)
@@ -47,7 +51,104 @@ void UW_Selection::HealPlayer(const FItemData& ItemData)
 	UE_LOG(LogTemp, Warning, TEXT("IT IS A HEAL BITCH"));
 }
 
-void UW_Selection::SetCurrentItem(const FItemData& ItemData)
+void UW_Selection::BindCombineButtonEvent(UButton* Button)
 {
-	CurrentItemData = ItemData;
+	if (!Button)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Botão não encontrado buaaa"));
+		return;
+	}
+
+	BTN_Combine = Button;
+
+	BTN_Combine->OnClicked.AddDynamic(this, &UW_Selection::OnCombineButtonClicked);
+	UE_LOG(LogTemp, Warning, TEXT("Botão encontrado e binded wahooo"));
+}
+
+void UW_Selection::OnCombineButtonClicked()
+{
+	UE_LOG(LogTemp, Warning, TEXT("APERTADO COM SUCESSO :D"));
+
+	TriggerCombineEvent();
+}
+
+void UW_Selection::TriggerCombineEvent()
+{
+	OnCombineEvent.Broadcast(CurrentItemData);
+	UE_LOG(LogTemp, Warning, TEXT("PARE"));
+
+	CombineItem(CurrentItemData);
+}
+
+void UW_Selection::CombineItem(const FItemData& ItemData)
+{
+	UE_LOG(LogTemp, Warning, TEXT("weed"));
+}
+
+void UW_Selection::BindInspectButtonEvent(UButton* Button)
+{
+	if (!Button)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Botão não encontrado buaaa"));
+		return;
+	}
+
+	BTN_Inspect = Button;
+
+	BTN_Inspect->OnClicked.AddDynamic(this, &UW_Selection::OnInspectButtonClicked);
+	UE_LOG(LogTemp, Warning, TEXT("Botão encontrado e binded wahooo"));
+}
+
+void UW_Selection::OnInspectButtonClicked()
+{
+	UE_LOG(LogTemp, Warning, TEXT("APERTADO COM SUCESSO :D"));
+
+	TriggerInspectEvent();
+}
+
+void UW_Selection::TriggerInspectEvent()
+{
+	OnInspectEvent.Broadcast(CurrentItemData);
+	UE_LOG(LogTemp, Warning, TEXT("PARE"));
+
+	InspectItem(CurrentItemData);
+}
+
+void UW_Selection::InspectItem(const FItemData& ItemData)
+{
+	UE_LOG(LogTemp, Warning, TEXT("look at that shi man"));
+}
+
+void UW_Selection::BindDeleteButtonEvent(UButton* Button)
+{
+	if (!Button)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Botão não encontrado buaaa"));
+		return;
+	}
+
+	BTN_Delete = Button;
+
+	BTN_Delete->OnClicked.AddDynamic(this, &UW_Selection::OnDeleteButtonClicked);
+	UE_LOG(LogTemp, Warning, TEXT("Botão encontrado e binded wahooo"));
+}
+
+void UW_Selection::OnDeleteButtonClicked()
+{
+	UE_LOG(LogTemp, Warning, TEXT("APERTADO COM SUCESSO :D"));
+
+	TriggerDeleteEvent();
+}
+
+void UW_Selection::TriggerDeleteEvent()
+{
+	OnDeleteEvent.Broadcast(CurrentItemData);
+	UE_LOG(LogTemp, Warning, TEXT("PARE"));
+
+	DeleteItem(CurrentItemData);
+}
+
+void UW_Selection::DeleteItem(const FItemData& ItemData)
+{
+	UE_LOG(LogTemp, Warning, TEXT("yah biiih"));
 }

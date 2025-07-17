@@ -49,11 +49,20 @@ public:
 	UFUNCTION()
 	void OnClicked();
 
+	// Trigger Events
 	UFUNCTION()
 	void OnHealEventTriggered(FItemData ItemData);
+	UFUNCTION()
+	void OnCombineEventTriggered(FItemData ItemData);
+	UFUNCTION()
+	void OnInspectEventTriggered(FItemData ItemData);
+	UFUNCTION()
+	void OnDeleteEventTriggered(FItemData ItemData);
 protected:
 	virtual void NativeConstruct() override;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Character")
 	APlayerController* PlayerController;
+
+	void SetupButtons();
 };
