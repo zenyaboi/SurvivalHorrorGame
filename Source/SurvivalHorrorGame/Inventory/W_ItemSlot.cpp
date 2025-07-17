@@ -99,3 +99,16 @@ void UW_ItemSlot::OnItemUnhovered()
 		InventoryGrid->ItemDescription->SetText(FText::GetEmpty());
 	}
 }
+
+void UW_ItemSlot::OnClicked()
+{
+	if (!IsValid(CurrentItem.ItemImage))
+		return;
+
+	UE_LOG(LogTemp, Warning, TEXT("Item Clicked"));
+
+	if (!UW_Selection)
+		return;
+
+	UW_Selection->SetVisibility(ESlateVisibility::Visible);
+}

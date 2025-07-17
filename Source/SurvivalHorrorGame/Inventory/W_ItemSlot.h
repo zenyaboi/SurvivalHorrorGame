@@ -2,9 +2,10 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "SurvivalHorrorGame/Inventory/S_ItemData.h"
+#include "S_ItemData.h"
 #include "W_InventoryGrid.h"
 #include "Components/TextBlock.h"
+#include "W_Selection.h"
 #include "W_ItemSlot.generated.h"
 
 UCLASS()
