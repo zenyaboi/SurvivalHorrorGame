@@ -126,6 +126,14 @@ bool ABaseItem::Interact_Implementation(ACharacter* Interactor)
 	}
 }
 
+void ABaseItem::Inspect_Implementation(ACharacter* Interactor, UStaticMesh* ItemMesh,
+										const FText& ItemName, const FText& ItemDescription, 
+										UW_InventoryGrid* InventoryRef)
+{
+	UE_LOG(LogTemp, Warning, TEXT("A"));
+}
+
+
 
 void ABaseItem::OnInnerBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
