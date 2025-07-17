@@ -50,7 +50,7 @@ public:
 	void OnClicked();
 
 	UFUNCTION()
-	void OnHealEventTriggered();
+	void OnHealEventTriggered(FItemData ItemData);
 protected:
 	virtual void NativeConstruct() override;
 	

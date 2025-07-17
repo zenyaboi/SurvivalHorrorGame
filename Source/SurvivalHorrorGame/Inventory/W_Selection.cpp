@@ -30,6 +30,24 @@ void UW_Selection::OnHealButtonClicked()
 
 void UW_Selection::TriggerHealEvent()
 {
-	OnHealEvent.Broadcast();
+	OnHealEvent.Broadcast(CurrentItemData);
 	UE_LOG(LogTemp, Warning, TEXT("aaaaaaaaaaaaaaaaaaaaaa"));
+
+	HealPlayer(CurrentItemData);
+}
+
+void UW_Selection::HealPlayer(const FItemData& ItemData)
+{
+	if (!ItemData.isItemHealable)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("NOT A HEAL BITCH"));
+		return;
+	}
+
+	UE_LOG(LogTemp, Warning, TEXT("IT IS A HEAL BITCH"));
+}
+
+void UW_Selection::SetCurrentItem(const FItemData& ItemData)
+{
+	CurrentItemData = ItemData;
 }

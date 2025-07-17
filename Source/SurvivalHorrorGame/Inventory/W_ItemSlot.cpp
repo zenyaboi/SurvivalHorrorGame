@@ -122,11 +122,12 @@ void UW_ItemSlot::OnClicked()
 		Selection->SetVisibility(ESlateVisibility::Hidden);
 		return;
 	}
-	
+
+	Selection->SetCurrentItem(CurrentItem);
 	Selection->SetVisibility(ESlateVisibility::Visible);
 }
 
-void UW_ItemSlot::OnHealEventTriggered()
+void UW_ItemSlot::OnHealEventTriggered(FItemData ItemData)
 {
 	UE_LOG(LogTemp, Warning, TEXT("BITCHES ARE TRIPPING"));
 }
