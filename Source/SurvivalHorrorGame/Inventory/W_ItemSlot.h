@@ -6,6 +6,7 @@
 #include "W_InventoryGrid.h"
 #include "Components/TextBlock.h"
 #include "W_Selection.h"
+#include "SurvivalHorrorGame/Player/PlayerCharacter.h"
 #include "W_ItemSlot.generated.h"
 
 UCLASS()
@@ -13,10 +14,10 @@ class SURVIVALHORRORGAME_API UW_ItemSlot : public UUserWidget
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(BlueprintReadWrite, Category = "Item Slot")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Inventory|Item")
 	FItemData CurrentItem;
 
-	UPROPERTY(BlueprintReadWrite, Category = "Item Slot")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Item Slot")
 	int32 SlotIndex;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
@@ -51,4 +52,7 @@ public:
 	void OnClicked();
 protected:
 	virtual void NativeConstruct() override;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Character")
+	APlayerController* PlayerController;
 };

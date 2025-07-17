@@ -5,10 +5,13 @@
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
 #include "Engine/Texture2D.h"
+#include "Slate/SGameLayerManager.h"
 
 void UW_ItemSlot::NativeConstruct()
 {
 	Super::NativeConstruct();
+
+	PlayerController = GetWorld()->GetFirstPlayerController();
 
 	if (ItemButton)
 	{
