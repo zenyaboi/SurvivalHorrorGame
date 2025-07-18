@@ -102,6 +102,8 @@ void UW_ItemSlot::OnItemUnhovered()
 	{
 		InventoryGrid->ItemDescription->SetText(FText::GetEmpty());
 	}
+
+	Selection->SetVisibility(ESlateVisibility::Hidden);
 }
 
 void UW_ItemSlot::OnClicked()
