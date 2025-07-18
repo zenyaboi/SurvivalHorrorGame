@@ -33,9 +33,13 @@ protected:
 	TSubclassOf<UUserWidget> WInspectClass;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget")
 	UW_Inspect* InspectWidget;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
+	UW_InventoryGrid* Inventory;
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	
 	bool isInspectVisible;
+	
 };

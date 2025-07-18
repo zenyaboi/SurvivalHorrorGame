@@ -3,7 +3,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/WrapBox.h"
-#include "SurvivalHorrorGame/Inventory/S_ItemData.h"
+#include "S_ItemData.h"
 #include "Components/TextBlock.h"
 #include "W_InventoryGrid.generated.h"
 

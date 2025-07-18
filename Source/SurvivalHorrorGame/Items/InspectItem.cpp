@@ -56,6 +56,8 @@ void AInspectItem::Inspect_Implementation(APlayerController* Interactor, UStatic
 		return;
 	}
 
+	Inventory = InventoryRef;
+	
 	isInspectVisible = !isInspectVisible;
 	if (isInspectVisible)
 	{
