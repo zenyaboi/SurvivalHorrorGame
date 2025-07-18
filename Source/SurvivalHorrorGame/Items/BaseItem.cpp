@@ -4,6 +4,7 @@
 #include "Components/SphereComponent.h"
 #include "Components/BillboardComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "SurvivalHorrorGame/Inventory/W_InventoryGrid.h"
 #include "SurvivalHorrorGame/Player/PlayerCharacter.h" 
 
 // Sets default values
@@ -112,13 +113,15 @@ bool ABaseItem::Interact_Implementation(ACharacter* Interactor)
 {
 	UE_LOG(LogTemp, Warning, TEXT("BaseItem: Interagindo com %s"), *Item.ItemName.ToString());
 
-	SpawnActor();
-
 	APlayerCharacter* Player = Cast<APlayerCharacter>(Interactor);
-	if (Player)
+	APlayerController* PlayerController = Cast<APlayerController>(Player->GetController());
+
+	if (Player && PlayerController)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Cast para PlayerCharacter bem-sucedido!"));
 		UInventoryComponent* InventoryComponent = Player->GetInventoryComponent();
+		
+		SpawnActor(PlayerController, InventoryComponent);
 		
 		InventoryComponent->AddItemToInventory(this);
 		return true;
@@ -189,8 +192,16 @@ void ABaseItem::OnOuterEndOverlap(UPrimitiveComponent* OverlappedComponent, AAct
 	}
 }
 
-void ABaseItem::SpawnActor()
+void ABaseItem::SpawnActor(APlayerController* Player, UInventoryComponent* Inventory)
 {
+	UE_LOG(LogTemp, Warning, TEXT("HEY"));
+
+	if (!InspectItemClass)
+	{
+		UE_LOG(LogTemp, Error, TEXT("InspectItemClass não está definido!"));
+		return;
+	}
+	
 	FVector SpawnLocation = FVector(10000000.0f, 0.0f, 0.0f);
 	FRotator SpawnRotation = FRotator(0.0f, 0.0f, 0.0f);
 	
@@ -199,8 +210,15 @@ void ABaseItem::SpawnActor()
 	SpawnParams.Instigator = GetInstigator();
 
 	AInspectItem* newItem = GetWorld()->SpawnActor<AInspectItem>(
-		AInspectItem::StaticClass(),
+		InspectItemClass,
 		SpawnLocation,
 		SpawnRotation
 		);
+
+	UW_InventoryGrid* InventoryRef = Inventory->InventoryGrid;
+
+	if (!InventoryRef)
+		return;
+	
+	IInteract::Execute_Inspect(newItem, Player, Item.ItemMesh, Item.ItemName, Item.ItemDescription, InventoryRef);
 }

@@ -1,7 +1,5 @@
 #include "SurvivalHorrorGame/Inventory/InventoryComponent.h"
-#include "SurvivalHorrorGame/Inventory/W_InventoryGrid.h"
 #include "Blueprint/UserWidget.h"
-#include "Kismet/GameplayStatics.h"
 
 // Sets default values for this component's properties
 UInventoryComponent::UInventoryComponent()
@@ -27,7 +25,7 @@ void UInventoryComponent::BeginPlay()
 	{
 		InventoryReference = CreateWidget<UUserWidget>(GetWorld(), WInventoryGridClass);
 
-		UW_InventoryGrid* InventoryGrid = Cast<UW_InventoryGrid>(InventoryReference);
+		InventoryGrid = Cast<UW_InventoryGrid>(InventoryReference);
 		if (InventoryGrid)
 		{
 			InventoryGrid->Items = Items;
@@ -45,7 +43,7 @@ void UInventoryComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 
 void UInventoryComponent::RefreshInventory()
 {
-	if (UW_InventoryGrid* InventoryGrid = Cast<UW_InventoryGrid>(InventoryReference))
+	if (InventoryGrid)
 	{
 		InventoryGrid->Items = Items;
 		InventoryGrid->InventorySize = InventorySize;

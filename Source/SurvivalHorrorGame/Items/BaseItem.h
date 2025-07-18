@@ -4,6 +4,7 @@
 #include "GameFramework/Actor.h"
 #include "SurvivalHorrorGame/Interfaces/Interact.h"
 #include "SurvivalHorrorGame/Inventory/S_ItemData.h"
+#include "SurvivalHorrorGame/Items/InspectItem.h"
 #include "BaseItem.generated.h"
 
 UCLASS()
@@ -72,6 +73,9 @@ public:
 	FVector iconLocation;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseItem")
 	bool isDebug;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseItem|Inspect")
+	TSubclassOf<AInspectItem> InspectItemClass;
 	
 	UFUNCTION(BlueprintCallable, Category = "BaseItem|Inventory")
 	void BreakItemDataBlueprint(FText& Name, FText& Description, bool& Stackable, 
@@ -82,5 +86,5 @@ public:
 	const FItemData& GetItemDataConstRef() const { return Item; }
 
 	UFUNCTION(BlueprintCallable, Category = "Inspect Item")
-	void SpawnActor()
+	void SpawnActor(APlayerController* Player, UInventoryComponent* Inventory);
 };

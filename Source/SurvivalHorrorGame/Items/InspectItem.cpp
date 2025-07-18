@@ -25,10 +25,18 @@ void AInspectItem::BeginPlay()
 			Item = Mesh;
 	}
 
-	InspectRef = CreateWidget<UUserWidget>(GetWorld(), WInspectClass);
-	InspectWidget = Cast<UW_Inspect>(InspectRef);
-	if (InspectWidget)
+	if (WInspectClass)
+	{
 		UE_LOG(LogTemp, Warning, TEXT("YIIIPEEEE :)"));
+		InspectRef = CreateWidget<UUserWidget>(GetWorld(), WInspectClass);
+		InspectWidget = Cast<UW_Inspect>(InspectRef);
+		if (InspectWidget)
+			UE_LOG(LogTemp, Warning, TEXT("YIIIPEEEE :)"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("AWWWWW :("));
+	}
 }
 
 // Called every frame

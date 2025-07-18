@@ -5,6 +5,7 @@
 #include "S_ItemData.h"
 #include "SurvivalHorrorGame/Items/BaseItem.h"
 #include "Blueprint/UserWidget.h"
+#include "W_InventoryGrid.h"
 #include "InventoryComponent.generated.h"
 
 // Struct Check Stack
@@ -80,6 +81,9 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, Category = "Inventory")
 	class UUserWidget* InventoryReference;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Inventory")
+	UW_InventoryGrid* InventoryGrid;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
 	TArray<FItemData> Items;
