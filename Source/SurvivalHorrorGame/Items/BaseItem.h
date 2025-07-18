@@ -80,4 +80,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "BaseItem|Inventory")
 	const FItemData& GetItemDataConstRef() const { return Item; }
+
+	UFUNCTION(BlueprintCallable, Category = "Inspect Item")
+	void SpawnActor()
 };

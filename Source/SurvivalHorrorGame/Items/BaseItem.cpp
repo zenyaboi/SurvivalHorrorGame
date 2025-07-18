@@ -1,4 +1,6 @@
 #include "SurvivalHorrorGame/Items/BaseItem.h"
+
+#include "InspectItem.h"
 #include "Components/SphereComponent.h"
 #include "Components/BillboardComponent.h"
 #include "Components/StaticMeshComponent.h"
@@ -110,6 +112,8 @@ bool ABaseItem::Interact_Implementation(ACharacter* Interactor)
 {
 	UE_LOG(LogTemp, Warning, TEXT("BaseItem: Interagindo com %s"), *Item.ItemName.ToString());
 
+	SpawnActor();
+
 	APlayerCharacter* Player = Cast<APlayerCharacter>(Interactor);
 	if (Player)
 	{
@@ -132,8 +136,6 @@ void ABaseItem::Inspect_Implementation(APlayerController* Interactor, UStaticMes
 {
 	UE_LOG(LogTemp, Warning, TEXT("A"));
 }
-
-
 
 void ABaseItem::OnInnerBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
@@ -185,4 +187,20 @@ void ABaseItem::OnOuterEndOverlap(UPrimitiveComponent* OverlappedComponent, AAct
 		OuterIcon->SetVisibility(false);
 		UE_LOG(LogTemp, Warning, TEXT("Outer Icon escondido"));
 	}
+}
+
+void ABaseItem::SpawnActor()
+{
+	FVector SpawnLocation = FVector(10000000.0f, 0.0f, 0.0f);
+	FRotator SpawnRotation = FRotator(0.0f, 0.0f, 0.0f);
+	
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.Owner = this;
+	SpawnParams.Instigator = GetInstigator();
+
+	AInspectItem* newItem = GetWorld()->SpawnActor<AInspectItem>(
+		AInspectItem::StaticClass(),
+		SpawnLocation,
+		SpawnRotation
+		);
 }
