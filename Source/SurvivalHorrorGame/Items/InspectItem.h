@@ -1,10 +1,9 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "SurvivalHorrorGame/Interfaces/Interact.h"
+#include "W_Inspect.h"
 #include "SurvivalHorrorGame/Inventory/S_ItemData.h"
 #include "InspectItem.generated.h"
 
@@ -22,9 +21,18 @@ protected:
 	virtual void BeginPlay() override;
 
 	virtual bool Interact_Implementation(ACharacter* Interactor) override;
-	virtual void Inspect_Implementation(ACharacter* Interactor, UStaticMesh* ItemMesh,
+	virtual void Inspect_Implementation(APlayerController* Interactor, UStaticMesh* ItemMesh,
 		const FText& ItemName, const FText& ItemDescription, UW_InventoryGrid* InventoryRef) override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mesh")
+	UStaticMeshComponent* Item;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget")
+	UUserWidget* InspectRef;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget")
+	TSubclassOf<UUserWidget> WInspectClass;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget")
+	UW_Inspect* InspectWidget;
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

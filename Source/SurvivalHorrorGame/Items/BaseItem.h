@@ -48,7 +48,7 @@ protected:
 	float iconZPosition;
 
 	virtual bool Interact_Implementation(ACharacter* Interactor) override;
-	virtual void Inspect_Implementation(ACharacter* Interactor, UStaticMesh* ItemMesh,
+	virtual void Inspect_Implementation(APlayerController* Interactor, UStaticMesh* ItemMesh,
 		const FText& ItemName, const FText& ItemDescription, UW_InventoryGrid* InventoryRef) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseItem|Inventory")

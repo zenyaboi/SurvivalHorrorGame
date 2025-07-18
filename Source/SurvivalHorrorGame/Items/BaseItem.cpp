@@ -126,7 +126,7 @@ bool ABaseItem::Interact_Implementation(ACharacter* Interactor)
 	}
 }
 
-void ABaseItem::Inspect_Implementation(ACharacter* Interactor, UStaticMesh* ItemMesh,
+void ABaseItem::Inspect_Implementation(APlayerController* Interactor, UStaticMesh* ItemMesh,
 										const FText& ItemName, const FText& ItemDescription, 
 										UW_InventoryGrid* InventoryRef)
 {

@@ -22,7 +22,7 @@ public:
 	virtual bool Interact_Implementation(ACharacter* Interactor) = 0;
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Inspect")
-	void Inspect(ACharacter* Interactor, UStaticMesh* ItemMesh, const FText& ItemName, const FText& ItemDescription, UW_InventoryGrid* InventoryRef);
-	virtual void Inspect_Implementation(ACharacter* Interactor, UStaticMesh* ItemMesh,
+	void Inspect(APlayerController* Interactor, UStaticMesh* ItemMesh, const FText& ItemName, const FText& ItemDescription, UW_InventoryGrid* InventoryRef);
+	virtual void Inspect_Implementation(APlayerController* Interactor, UStaticMesh* ItemMesh,
 		const FText& ItemName, const FText& ItemDescription, UW_InventoryGrid* InventoryRef) = 0;
 };
