@@ -14,6 +14,8 @@ void AInspectItem::BeginPlay()
 {
 	Super::BeginPlay();
 
+	isInspectVisible = false;
+
 	TArray<UStaticMeshComponent*> StaticMeshes;
 	GetComponents<UStaticMeshComponent>(StaticMeshes);
 
@@ -54,13 +56,24 @@ void AInspectItem::Inspect_Implementation(APlayerController* Interactor, UStatic
 		return;
 	}
 
-	DisableInput(Interactor);
-	EnableInput(Interactor);
-	
-	Item->SetStaticMesh(ItemMesh);
-	InspectWidget->ItemName->SetText(ItemName);
-	InspectWidget->ItemDescription->SetText(ItemDescription);
-	InspectWidget->AddToViewport();
+	isInspectVisible = !isInspectVisible;
+	if (isInspectVisible)
+	{
+		Item->SetStaticMesh(ItemMesh);
+		InspectWidget->ItemName->SetText(ItemName);
+		InspectWidget->ItemDescription->SetText(ItemDescription);
+		InspectWidget->AddToViewport();
+
+		// Making sure the game know we are controlling the Inspect
+		DisableInput(Interactor);
+		EnableInput(Interactor);
+	}
+	else
+	{
+		InspectWidget->RemoveFromParent();
+		InspectWidget = nullptr;
+		Destroy();
+	}
 }
 
 bool AInspectItem::Interact_Implementation(ACharacter* Interactor)
