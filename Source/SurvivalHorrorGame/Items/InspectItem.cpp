@@ -56,13 +56,6 @@ void AInspectItem::Inspect_Implementation(APlayerController* Interactor, UStatic
 		UE_LOG(LogTemp, Warning, TEXT("OOPS NOT FOUND"));
 		return;
 	}
-	
-	Interactor = GetWorld()->GetFirstPlayerController();
-	if (!Interactor)
-	{
-		UE_LOG(LogTemp, Error, TEXT("PlayerController não encontrado!"));
-		return;
-	}
 
 	Inventory = InventoryRef;
 	
@@ -75,7 +68,9 @@ void AInspectItem::Inspect_Implementation(APlayerController* Interactor, UStatic
 		InspectWidget->AddToViewport();
 
 		// Making sure the game know we are controlling the Inspect
-		DisableInput(Interactor);
+		Interactor->DisableInput(Interactor);
+		Interactor->SetIgnoreLookInput(true);
+		Interactor->SetIgnoreMoveInput(true);
 		EnableInput(Interactor);
 	}
 	else
