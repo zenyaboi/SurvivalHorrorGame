@@ -16,6 +16,13 @@ void AInspectItem::BeginPlay()
 
 	isInspectVisible = false;
 
+	USceneCaptureComponent2D* SceneCaptureComponent = FindComponentByClass<USceneCaptureComponent2D>();
+	if (SceneCaptureComponent)
+	{
+		SceneCapture = SceneCaptureComponent;
+		SceneCapture->FOVAngle = CurrentFOV;
+	}
+
 	UStaticMeshComponent* MeshComponent = FindComponentByClass<UStaticMeshComponent>();
 	if (MeshComponent && MeshComponent->GetName().Contains(TEXT("Mesh")))
 	{
@@ -122,16 +129,20 @@ void AInspectItem::Inspect_Implementation(APlayerController* Interactor, UStatic
 void AInspectItem::OnLeftMousePressed()
 {
 	UE_LOG(LogTemp, Warning, TEXT("A"));
+	Rotate = true;
 }
 
 void AInspectItem::OnLeftMouseReleased()
 {
 	UE_LOG(LogTemp, Warning, TEXT("B"));
+	Rotate = false;
 }
 
 void AInspectItem::OnRightMousePressed()
 {
 	UE_LOG(LogTemp, Warning, TEXT("C"));
+	Item->SetRelativeRotation(InitialRotation);
+	SceneCapture->FOVAngle = 50.f;
 }
 
 void AInspectItem::OnRightMouseReleased()

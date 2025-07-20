@@ -46,7 +46,7 @@ protected:
 
 	// Rotation and Scale Variables
 	UPROPERTY(BlueprintReadWrite, Category = "Inspection")
-	bool bRotate = false;
+	bool Rotate = false;
 	UPROPERTY(BlueprintReadWrite, Category = "Inspection")
 	FRotator InitialRotation;
 	UPROPERTY(BlueprintReadWrite, Category = "Inspection")
