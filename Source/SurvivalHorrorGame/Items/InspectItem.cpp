@@ -16,13 +16,10 @@ void AInspectItem::BeginPlay()
 
 	isInspectVisible = false;
 
-	TArray<UStaticMeshComponent*> StaticMeshes;
-	GetComponents<UStaticMeshComponent>(StaticMeshes);
-
-	for (UStaticMeshComponent* Mesh : StaticMeshes)
+	UStaticMeshComponent* MeshComponent = FindComponentByClass<UStaticMeshComponent>();
+	if (MeshComponent && MeshComponent->GetName().Contains(TEXT("Mesh")))
 	{
-		if (Mesh->GetName().Contains(TEXT("Mesh")))
-			Item = Mesh;
+		Item = MeshComponent;
 	}
 
 	if (WInspectClass)
@@ -63,6 +60,7 @@ void AInspectItem::Inspect_Implementation(APlayerController* Interactor, UStatic
 	if (isInspectVisible)
 	{
 		Item->SetStaticMesh(ItemMesh);
+		Item->SetRelativeScale3D(FVector(0.5f));
 		InspectWidget->ItemName->SetText(ItemName);
 		InspectWidget->ItemDescription->SetText(ItemDescription);
 		InspectWidget->AddToViewport();
