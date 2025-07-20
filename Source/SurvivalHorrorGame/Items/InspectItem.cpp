@@ -42,7 +42,27 @@ void AInspectItem::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	GetMouseInput();
 }
+
+void AInspectItem::GetMouseInput()
+{
+	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
+	if (PlayerController)
+	{
+		float MouseDeltaX, MouseDeltaY;
+		PlayerController->GetInputMouseDelta(MouseDeltaX, MouseDeltaY);
+
+		MouseInputX = MouseDeltaX;
+		MouseInputY = MouseDeltaY;
+
+		if (MouseInputX != 0.0f || MouseInputY != 0.0f)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Mouse Input - X: %f, Y: %f"), MouseInputX, MouseInputY);
+		}
+	}
+}
+
 
 void AInspectItem::Inspect_Implementation(APlayerController* Interactor, UStaticMesh* ItemMesh,
 										const FText& ItemName, const FText& ItemDescription, 

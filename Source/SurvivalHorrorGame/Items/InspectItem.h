@@ -21,15 +21,18 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	// Interface Functions
 	virtual bool Interact_Implementation(ACharacter* Interactor) override;
 	virtual void Inspect_Implementation(APlayerController* Interactor, UStaticMesh* ItemMesh,
 		const FText& ItemName, const FText& ItemDescription, UW_InventoryGrid* InventoryRef) override;
 
+	// Components References
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mesh")
 	UStaticMeshComponent* Item;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Capture")
 	USceneCaptureComponent2D* SceneCapture;
 
+	// Inspect Widget References
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget")
 	UUserWidget* InspectRef;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget")
@@ -37,21 +40,27 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget")
 	UW_Inspect* InspectWidget;
 
+	// Inventory Widget Reference
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
 	UW_InventoryGrid* Inventory;
 
+	// Rotation and Scale Variables
 	UPROPERTY(BlueprintReadWrite, Category = "Inspection")
 	bool bRotate = false;
-
 	UPROPERTY(BlueprintReadWrite, Category = "Inspection")
 	FRotator InitialRotation;
-
 	UPROPERTY(BlueprintReadWrite, Category = "Inspection")
 	float CurrentFOV = 50.0f;
 
+	// Mouse Input Reference
+	float MouseInputX;
+	float MouseInputY;
+	
+	void GetMouseInput();
+
+	// Rotation and Scale Functions
 	UFUNCTION(BlueprintCallable, Category = "Inspection")
 	void SetInspectRotation(FRotator ItemRotation);
-
 	UFUNCTION(BlueprintCallable, Category = "Inspection") 
 	void SetInspectScale(FVector InspectionScale);
 public:	
