@@ -56,10 +56,29 @@ void AInspectItem::GetMouseInput()
 		MouseInputX = MouseDeltaX;
 		MouseInputY = MouseDeltaY;
 
-		if (MouseInputX != 0.0f || MouseInputY != 0.0f)
+		bool bLeftPressed = PlayerController->IsInputKeyDown(EKeys::LeftMouseButton);
+		bool bRightPressed = PlayerController->IsInputKeyDown(EKeys::RightMouseButton);
+
+		if (bLeftPressed && !IsLeftMousePressed)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Mouse Input - X: %f, Y: %f"), MouseInputX, MouseInputY);
+			OnLeftMousePressed(); // Chamada quando pressionado
 		}
+		if (!bLeftPressed && IsLeftMousePressed)
+		{
+			OnLeftMouseReleased(); // Chamada quando solto
+		}
+        
+		if (bRightPressed && !IsRightMousePressed)
+		{
+			OnRightMousePressed();
+		}
+		if (!bRightPressed && IsRightMousePressed)
+		{
+			OnRightMouseReleased();
+		}
+
+		IsLeftMousePressed = bLeftPressed;
+		IsRightMousePressed = bRightPressed;
 	}
 }
 
@@ -99,6 +118,27 @@ void AInspectItem::Inspect_Implementation(APlayerController* Interactor, UStatic
 		Destroy();
 	}
 }
+
+void AInspectItem::OnLeftMousePressed()
+{
+	UE_LOG(LogTemp, Warning, TEXT("A"));
+}
+
+void AInspectItem::OnLeftMouseReleased()
+{
+	UE_LOG(LogTemp, Warning, TEXT("B"));
+}
+
+void AInspectItem::OnRightMousePressed()
+{
+	UE_LOG(LogTemp, Warning, TEXT("C"));
+}
+
+void AInspectItem::OnRightMouseReleased()
+{
+	UE_LOG(LogTemp, Warning, TEXT("D"));
+}
+
 
 void AInspectItem::SetInspectRotation(FRotator ItemRotation)
 {

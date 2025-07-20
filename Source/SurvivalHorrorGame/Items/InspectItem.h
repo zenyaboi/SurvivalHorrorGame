@@ -55,8 +55,15 @@ protected:
 	// Mouse Input Reference
 	float MouseInputX;
 	float MouseInputY;
-	
+	bool IsLeftMousePressed = false;
+	bool IsRightMousePressed = false;
+
+	// Mouse Input Functions
 	void GetMouseInput();
+	void OnLeftMousePressed();
+	void OnLeftMouseReleased();
+	void OnRightMousePressed();
+	void OnRightMouseReleased();
 
 	// Rotation and Scale Functions
 	UFUNCTION(BlueprintCallable, Category = "Inspection")
