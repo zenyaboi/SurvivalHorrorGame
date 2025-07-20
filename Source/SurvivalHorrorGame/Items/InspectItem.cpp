@@ -19,6 +19,7 @@ void AInspectItem::BeginPlay()
 	UStaticMeshComponent* MeshComponent = FindComponentByClass<UStaticMeshComponent>();
 	if (MeshComponent && MeshComponent->GetName().Contains(TEXT("Mesh")))
 	{
+		InitialRotation = MeshComponent->GetRelativeRotation();
 		Item = MeshComponent;
 	}
 
@@ -77,6 +78,16 @@ void AInspectItem::Inspect_Implementation(APlayerController* Interactor, UStatic
 		InspectWidget = nullptr;
 		Destroy();
 	}
+}
+
+void AInspectItem::SetInspectRotation(FRotator ItemRotation)
+{
+	Item->SetRelativeRotation(ItemRotation);
+}
+
+void AInspectItem::SetInspectScale(FVector InspectionScale)
+{
+	Item->SetRelativeScale3D(InspectionScale);
 }
 
 bool AInspectItem::Interact_Implementation(ACharacter* Interactor)

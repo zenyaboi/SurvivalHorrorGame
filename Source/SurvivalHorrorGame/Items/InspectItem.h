@@ -5,6 +5,7 @@
 #include "SurvivalHorrorGame/Interfaces/Interact.h"
 #include "W_Inspect.h"
 #include "SurvivalHorrorGame/Inventory/S_ItemData.h"
+#include "Components/SceneCaptureComponent2D.h"
 #include "InspectItem.generated.h"
 
 UCLASS()
@@ -26,6 +27,8 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mesh")
 	UStaticMeshComponent* Item;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Capture")
+	USceneCaptureComponent2D* SceneCapture;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget")
 	UUserWidget* InspectRef;
@@ -36,6 +39,21 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
 	UW_InventoryGrid* Inventory;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Inspection")
+	bool bRotate = false;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Inspection")
+	FRotator InitialRotation;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Inspection")
+	float CurrentFOV = 50.0f;
+
+	UFUNCTION(BlueprintCallable, Category = "Inspection")
+	void SetInspectRotation(FRotator ItemRotation);
+
+	UFUNCTION(BlueprintCallable, Category = "Inspection") 
+	void SetInspectScale(FVector InspectionScale);
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
