@@ -1,5 +1,6 @@
 #include "W_Selection.h"
 #include "S_ItemData.h"
+#include "Slate/SGameLayerManager.h"
 
 void UW_Selection::NativeConstruct()
 {
@@ -142,13 +143,21 @@ void UW_Selection::OnDeleteButtonClicked()
 
 void UW_Selection::TriggerDeleteEvent()
 {
-	OnDeleteEvent.Broadcast(CurrentItemData);
+	APlayerController* PlayerController = GetOwningPlayer();
+	
+	OnDeleteEvent.Broadcast(PlayerController);
 	UE_LOG(LogTemp, Warning, TEXT("PARE"));
 
-	DeleteItem(CurrentItemData);
+	DeleteItem(PlayerController);
 }
 
-void UW_Selection::DeleteItem(const FItemData& ItemData)
+void UW_Selection::DeleteItem(APlayerController* PlayerControllerRef)
 {
+	APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(PlayerControllerRef->GetPawn());
+	
 	UE_LOG(LogTemp, Warning, TEXT("yah biiih"));
+	if (!PlayerCharacter)
+		return;
+
+	UInventoryComponent* InvTarget = PlayerCharacter->GetInventoryComponent();
 }

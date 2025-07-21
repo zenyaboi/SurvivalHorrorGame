@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "W_ItemSlot.h"
+#include "SurvivalHorrorGame/Player/PlayerCharacter.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Button.h"
 #include "W_Selection.generated.h"
@@ -10,7 +11,7 @@
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealEvent, FItemData, Item);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCombineEvent, FItemData, Item);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnInspectEvent, FItemData, Item);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDeleteEvent, FItemData, Item);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDeleteEvent, APlayerController*, PlayerControllerRef);
 
 UCLASS()
 class SURVIVALHORRORGAME_API UW_Selection : public UUserWidget
@@ -88,5 +89,5 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Events")
 	void TriggerDeleteEvent();
 	UFUNCTION(BlueprintCallable, Category = "Events")
-	void DeleteItem(const FItemData& ItemData);
+	void DeleteItem(APlayerController* PlayerControllerRef);
 };

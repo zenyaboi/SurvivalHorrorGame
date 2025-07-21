@@ -64,7 +64,7 @@ public:
 	UFUNCTION()
 	void OnInspectEventTriggered(FItemData ItemData);
 	UFUNCTION()
-	void OnDeleteEventTriggered(FItemData ItemData);
+	void OnDeleteEventTriggered(APlayerController* PlayerControllerRef);
 
 	UFUNCTION(BlueprintCallable, Category = "Inspect Item")
 	void SpawnActor(APlayerController* Player, UW_InventoryGrid* Inventory);
