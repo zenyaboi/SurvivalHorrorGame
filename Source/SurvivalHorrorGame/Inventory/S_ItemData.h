@@ -33,6 +33,21 @@ struct SURVIVALHORRORGAME_API FItemData
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FVector ItemInspectionScale;
 
+	bool operator==(const FItemData& Other) const
+	{
+		return isItemInventory == Other.isItemInventory &&
+			ItemName.ToString() == Other.ItemName.ToString() && ItemDescription.ToString() == Other.ItemDescription.ToString() &&
+				isItemStackable == Other.isItemStackable && ItemAmount == Other.ItemAmount &&
+					ItemMesh == Other.ItemMesh && ItemImage == Other.ItemImage &&
+						isItemHealable == Other.isItemHealable && ItemHealAmount == Other.ItemHealAmount &&
+							ItemInspectionRotation == Other.ItemInspectionRotation && ItemInspectionScale == Other.ItemInspectionScale;
+	}
+
+	bool operator!=(const FItemData& Other) const
+	{
+		return !(*this == Other);
+	}
+
 	FItemData()
 	{
 		isItemInventory = true;
