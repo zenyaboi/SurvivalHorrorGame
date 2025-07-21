@@ -189,34 +189,3 @@ void ABaseItem::OnOuterEndOverlap(UPrimitiveComponent* OverlappedComponent, AAct
 		UE_LOG(LogTemp, Warning, TEXT("Outer Icon escondido"));
 	}
 }
-
-void ABaseItem::SpawnActor(APlayerController* Player, UInventoryComponent* Inventory)
-{
-	UE_LOG(LogTemp, Warning, TEXT("HEY"));
-
-	if (!InspectItemClass)
-	{
-		UE_LOG(LogTemp, Error, TEXT("InspectItemClass não está definido!"));
-		return;
-	}
-	
-	FVector SpawnLocation = FVector(10000000.0f, 0.0f, 0.0f);
-	FRotator SpawnRotation = FRotator(0.0f, 0.0f, 0.0f);
-	
-	FActorSpawnParameters SpawnParams;
-	SpawnParams.Owner = this;
-	SpawnParams.Instigator = GetInstigator();
-
-	AInspectItem* newItem = GetWorld()->SpawnActor<AInspectItem>(
-		InspectItemClass,
-		SpawnLocation,
-		SpawnRotation
-		);
-
-	UW_InventoryGrid* InventoryRef = Inventory->InventoryGrid;
-
-	if (!InventoryRef)
-		return;
-	
-	IInteract::Execute_Inspect(newItem, Player, Item.ItemMesh, Item.ItemName, Item.ItemDescription, InventoryRef);
-}
