@@ -145,13 +145,13 @@ void UW_Selection::TriggerDeleteEvent()
 {
 	APlayerController* PlayerController = GetOwningPlayer();
 	
-	OnDeleteEvent.Broadcast(PlayerController);
+	OnDeleteEvent.Broadcast(PlayerController, CurrentItemData);
 	UE_LOG(LogTemp, Warning, TEXT("PARE"));
 
-	DeleteItem(PlayerController);
+	DeleteItem(PlayerController, CurrentItemData);
 }
 
-void UW_Selection::DeleteItem(APlayerController* PlayerControllerRef)
+void UW_Selection::DeleteItem(APlayerController* PlayerControllerRef, FItemData CurrentItemRef)
 {
 	APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(PlayerControllerRef->GetPawn());
 	
@@ -160,4 +160,10 @@ void UW_Selection::DeleteItem(APlayerController* PlayerControllerRef)
 		return;
 
 	UInventoryComponent* InvTarget = PlayerCharacter->GetInventoryComponent();
+	int32 InvSize = InvTarget->InventorySize;
+	int32 ItemIndex = InvTarget->Items.Find(CurrentItemRef);
+
+	InvTarget->Items.RemoveAt(ItemIndex);
+	InvTarget->Items.SetNum(InvSize);
+	InvTarget->RefreshInventory();
 }

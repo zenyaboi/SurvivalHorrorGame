@@ -160,7 +160,7 @@ void UW_ItemSlot::OnInspectEventTriggered(FItemData ItemData)
 	SpawnActor(PlayerController, InventoryGrid);
 }
 
-void UW_ItemSlot::OnDeleteEventTriggered(APlayerController* PlayerControllerRef)
+void UW_ItemSlot::OnDeleteEventTriggered(APlayerController* PlayerControllerRef, FItemData CurrentItemRef)
 {
 	UE_LOG(LogTemp, Warning, TEXT("BITCHES ARE TRIPPING"));
 }

@@ -11,7 +11,7 @@
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealEvent, FItemData, Item);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCombineEvent, FItemData, Item);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnInspectEvent, FItemData, Item);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDeleteEvent, APlayerController*, PlayerControllerRef);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnDeleteEvent, APlayerController*, PlayerControllerRef, FItemData, CurrentItemRef);
 
 UCLASS()
 class SURVIVALHORRORGAME_API UW_Selection : public UUserWidget
@@ -89,5 +89,5 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Events")
 	void TriggerDeleteEvent();
 	UFUNCTION(BlueprintCallable, Category = "Events")
-	void DeleteItem(APlayerController* PlayerControllerRef);
+	void DeleteItem(APlayerController* PlayerControllerRef, FItemData CurrentItemRef);
 };
