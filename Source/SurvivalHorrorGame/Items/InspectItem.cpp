@@ -171,7 +171,7 @@ void AInspectItem::OnRightMousePressed()
 {
 	UE_LOG(LogTemp, Warning, TEXT("C"));
 	Item->SetRelativeRotation(InitialRotation);
-	SceneCapture->FOVAngle = 50.f;
+	SceneCapture->FOVAngle = 80.f;
 }
 
 void AInspectItem::OnRightMouseReleased()
@@ -183,7 +183,7 @@ void AInspectItem::OnMouseWheelScrollUp()
 {
 	UE_LOG(LogTemp, Warning, TEXT("E"));
 	CurrentFOV += 1.f;
-	CurrentFOV = FMath::Clamp(CurrentFOV, 30.f, 80.f);
+	CurrentFOV = FMath::Clamp(CurrentFOV, 60.f, 110.f);
 	SceneCapture->FOVAngle = CurrentFOV;
 }
 
@@ -191,7 +191,7 @@ void AInspectItem::OnMouseWheelScrollDown()
 {
 	UE_LOG(LogTemp, Warning, TEXT("F"));
 	CurrentFOV -= 1.f;
-	CurrentFOV = FMath::Clamp(CurrentFOV, 30.f, 80.f);
+	CurrentFOV = FMath::Clamp(CurrentFOV, 60.f, 110.f);
 	SceneCapture->FOVAngle = CurrentFOV;
 }
 
@@ -209,4 +209,3 @@ bool AInspectItem::Interact_Implementation(ACharacter* Interactor)
 {
 	return false;
 }
-

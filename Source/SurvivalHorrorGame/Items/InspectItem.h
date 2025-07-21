@@ -50,7 +50,7 @@ protected:
 	UPROPERTY(BlueprintReadWrite, Category = "Inspection")
 	FRotator InitialRotation;
 	UPROPERTY(BlueprintReadWrite, Category = "Inspection")
-	float CurrentFOV = 50.0f;
+	float CurrentFOV = 80.0f;
 
 	// Mouse Input Reference
 	float MouseInputX;
