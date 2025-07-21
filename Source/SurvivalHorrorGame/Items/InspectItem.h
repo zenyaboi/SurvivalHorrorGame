@@ -64,6 +64,8 @@ protected:
 	void OnLeftMouseReleased();
 	void OnRightMousePressed();
 	void OnRightMouseReleased();
+	void OnMouseWheelScrollUp();
+	void OnMouseWheelScrollDown();
 
 	// Rotation and Scale Functions
 	UFUNCTION(BlueprintCallable, Category = "Inspection")

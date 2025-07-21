@@ -83,6 +83,9 @@ void AInspectItem::GetMouseInput()
 		bool bLeftPressed = PlayerController->IsInputKeyDown(EKeys::LeftMouseButton);
 		bool bRightPressed = PlayerController->IsInputKeyDown(EKeys::RightMouseButton);
 
+		bool bScrollUp = PlayerController->WasInputKeyJustPressed(EKeys::MouseScrollUp);
+		bool bScrollDown = PlayerController->WasInputKeyJustPressed(EKeys::MouseScrollDown);
+
 		if (bLeftPressed && !IsLeftMousePressed)
 		{
 			OnLeftMousePressed(); // Chamada quando pressionado
@@ -99,6 +102,15 @@ void AInspectItem::GetMouseInput()
 		if (!bRightPressed && IsRightMousePressed)
 		{
 			OnRightMouseReleased();
+		}
+
+		if (bScrollUp)
+		{
+			OnMouseWheelScrollUp();
+		}
+		if (bScrollDown)
+		{
+			OnMouseWheelScrollDown();
 		}
 
 		IsLeftMousePressed = bLeftPressed;
@@ -167,6 +179,21 @@ void AInspectItem::OnRightMouseReleased()
 	UE_LOG(LogTemp, Warning, TEXT("D"));
 }
 
+void AInspectItem::OnMouseWheelScrollUp()
+{
+	UE_LOG(LogTemp, Warning, TEXT("E"));
+	CurrentFOV += 1.f;
+	CurrentFOV = FMath::Clamp(CurrentFOV, 30.f, 80.f);
+	SceneCapture->FOVAngle = CurrentFOV;
+}
+
+void AInspectItem::OnMouseWheelScrollDown()
+{
+	UE_LOG(LogTemp, Warning, TEXT("F"));
+	CurrentFOV -= 1.f;
+	CurrentFOV = FMath::Clamp(CurrentFOV, 30.f, 80.f);
+	SceneCapture->FOVAngle = CurrentFOV;
+}
 
 void AInspectItem::SetInspectRotation(FRotator ItemRotation)
 {
