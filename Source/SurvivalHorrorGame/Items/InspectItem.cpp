@@ -1,5 +1,6 @@
 #include "InspectItem.h"
 #include "Blueprint/UserWidget.h"
+#include "W_Inspect.h"
 #include "Components/StaticMeshComponent.h"
 
 // Sets default values
@@ -36,7 +37,10 @@ void AInspectItem::BeginPlay()
 		InspectRef = CreateWidget<UUserWidget>(GetWorld(), WInspectClass);
 		InspectWidget = Cast<UW_Inspect>(InspectRef);
 		if (InspectWidget)
+		{
 			UE_LOG(LogTemp, Warning, TEXT("YIIIPEEEE :)"));
+			InspectWidget->InspectItemRef = this;
+		}
 	}
 	else
 	{
@@ -48,11 +52,9 @@ void AInspectItem::BeginPlay()
 void AInspectItem::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	GetMouseInput();
-
+	
 	// Rotating item on the Z axis
-	if (Rotate)
+	if (Rotate && IsLeftMousePressed && Item)
 	{
 		// Using mouse X axis to rotate the Z axis
 		float XAxisValue = MouseInputX * -3.f * DeltaTime * 30.f;
@@ -66,58 +68,85 @@ void AInspectItem::Tick(float DeltaTime)
 		FQuat NewQuat = YawRotation * PitchRotation * CurrentQuat;
 		
 		Item->SetWorldRotation(NewQuat);
+		MouseInputX = 0.0f;
+		MouseInputY = 0.0f;
 	}
 }
 
-void AInspectItem::GetMouseInput()
+void AInspectItem::ReceiveMouseInput(float MouseDeltaX, float MouseDeltaY)
 {
-	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
+	MouseInputX = MouseDeltaX;
+	MouseInputY = MouseDeltaY;
+}
+
+void AInspectItem::HandleLeftMousePressed()
+{
+	IsLeftMousePressed = true;
+	Rotate = true;
+}
+
+void AInspectItem::HandleLeftMouseReleased()
+{
+	IsLeftMousePressed = false;
+	Rotate = false;
+}
+
+void AInspectItem::HandleRightMousePressed()
+{
+	IsRightMousePressed = true;
+	if (Item)
+	{
+		Item->SetRelativeRotation(InitialRotation);
+	}
+	if (SceneCapture)
+	{
+		SceneCapture->FOVAngle = 80.f;
+		CurrentFOV = 80.f;
+	}
+}
+
+void AInspectItem::HandleRightMouseReleased()
+{
+	IsRightMousePressed = false;
+}
+
+void AInspectItem::HandleMouseWheelScrollUp()
+{
+	CurrentFOV += 5.f;
+	CurrentFOV = FMath::Clamp(CurrentFOV, 60.f, 110.f);
+	if (SceneCapture)
+	{
+		SceneCapture->FOVAngle = CurrentFOV;
+	}
+}
+
+void AInspectItem::HandleMouseWheelScrollDown()
+{
+	CurrentFOV -= 5.f;
+	CurrentFOV = FMath::Clamp(CurrentFOV, 60.f, 110.f);
+	if (SceneCapture)
+	{
+		SceneCapture->FOVAngle = CurrentFOV;
+	}
+}
+
+void AInspectItem::CloseInspect(APlayerController* PlayerController)
+{
+	if (InspectWidget)
+	{
+		InspectWidget->RemoveFromParent();
+		InspectWidget = nullptr;
+	}
+	
 	if (PlayerController)
 	{
-		float MouseDeltaX, MouseDeltaY;
-		PlayerController->GetInputMouseDelta(MouseDeltaX, MouseDeltaY);
-
-		MouseInputX = MouseDeltaX;
-		MouseInputY = MouseDeltaY;
-
-		bool bLeftPressed = PlayerController->IsInputKeyDown(EKeys::LeftMouseButton);
-		bool bRightPressed = PlayerController->IsInputKeyDown(EKeys::RightMouseButton);
-
-		bool bScrollUp = PlayerController->WasInputKeyJustPressed(EKeys::MouseScrollUp);
-		bool bScrollDown = PlayerController->WasInputKeyJustPressed(EKeys::MouseScrollDown);
-
-		if (bLeftPressed && !IsLeftMousePressed)
-		{
-			OnLeftMousePressed(); // Chamada quando pressionado
-		}
-		if (!bLeftPressed && IsLeftMousePressed)
-		{
-			OnLeftMouseReleased(); // Chamada quando solto
-		}
-        
-		if (bRightPressed && !IsRightMousePressed)
-		{
-			OnRightMousePressed();
-		}
-		if (!bRightPressed && IsRightMousePressed)
-		{
-			OnRightMouseReleased();
-		}
-
-		if (bScrollUp)
-		{
-			OnMouseWheelScrollUp();
-		}
-		if (bScrollDown)
-		{
-			OnMouseWheelScrollDown();
-		}
-
-		IsLeftMousePressed = bLeftPressed;
-		IsRightMousePressed = bRightPressed;
+		PlayerController->EnableInput(PlayerController);
+		PlayerController->SetIgnoreLookInput(false);
+		PlayerController->SetIgnoreMoveInput(false);
 	}
+	
+	Destroy();
 }
-
 
 void AInspectItem::Inspect_Implementation(APlayerController* Interactor, UStaticMesh* ItemMesh,
 										const FText& ItemName, const FText& ItemDescription, 

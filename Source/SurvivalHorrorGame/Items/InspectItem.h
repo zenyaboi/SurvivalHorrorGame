@@ -3,10 +3,12 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "SurvivalHorrorGame/Interfaces/Interact.h"
-#include "W_Inspect.h"
 #include "SurvivalHorrorGame/Inventory/S_ItemData.h"
 #include "Components/SceneCaptureComponent2D.h"
 #include "InspectItem.generated.h"
+
+class UW_Inspect;
+class UW_InventoryGrid;
 
 UCLASS()
 class SURVIVALHORRORGAME_API AInspectItem : public AActor, public IInteract
@@ -17,6 +19,29 @@ public:
 	// Sets default values for this actor's properties
 	AInspectItem();
 
+	UFUNCTION(BlueprintCallable, Category = "Input")
+	void ReceiveMouseInput(float MouseDeltaX, float MouseDeltaY);
+	
+	UFUNCTION(BlueprintCallable, Category = "Input")
+	void HandleLeftMousePressed();
+	
+	UFUNCTION(BlueprintCallable, Category = "Input")
+	void HandleLeftMouseReleased();
+	
+	UFUNCTION(BlueprintCallable, Category = "Input")
+	void HandleRightMousePressed();
+	
+	UFUNCTION(BlueprintCallable, Category = "Input")
+	void HandleRightMouseReleased();
+	
+	UFUNCTION(BlueprintCallable, Category = "Input")
+	void HandleMouseWheelScrollUp();
+	
+	UFUNCTION(BlueprintCallable, Category = "Input")
+	void HandleMouseWheelScrollDown();
+
+	UFUNCTION(BlueprintCallable, Category = "Inspect")
+	void CloseInspect(APlayerController* PlayerController);
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -59,7 +84,6 @@ protected:
 	bool IsRightMousePressed = false;
 
 	// Mouse Input Functions
-	void GetMouseInput();
 	void OnLeftMousePressed();
 	void OnLeftMouseReleased();
 	void OnRightMousePressed();
