@@ -50,6 +50,23 @@ void AInspectItem::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	GetMouseInput();
+
+	// Rotating item on the Z axis
+	if (Rotate)
+	{
+		// Using mouse X axis to rotate the Z axis
+		float XAxisValue = MouseInputX * -3.f * DeltaTime * 30.f;
+		float YAxisValue = MouseInputY * -3.f * DeltaTime * 30.f;
+
+		// Using Quaternions to "bypass" Gimbal Lock 
+		FQuat YawRotation = FQuat(FVector::UpVector, FMath::DegreesToRadians(XAxisValue));
+		FQuat PitchRotation = FQuat(FVector::LeftVector, FMath::DegreesToRadians(YAxisValue));
+
+		FQuat CurrentQuat = Item->GetComponentTransform().GetRotation();
+		FQuat NewQuat = YawRotation * PitchRotation * CurrentQuat;
+		
+		Item->SetWorldRotation(NewQuat);
+	}
 }
 
 void AInspectItem::GetMouseInput()
