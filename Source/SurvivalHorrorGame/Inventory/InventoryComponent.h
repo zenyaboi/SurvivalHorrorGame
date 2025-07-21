@@ -88,6 +88,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
 	TArray<FItemData> Items;
 
+	UPROPERTY(BlueprintReadWrite, Category = "Inventory")
+	TArray<ABaseItem*> ActorItems;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
 	int32 InventorySize;
 

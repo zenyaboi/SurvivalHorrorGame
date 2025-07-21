@@ -46,11 +46,22 @@ void UW_InventoryGrid::RefreshInventory()
 			if (i < Items.Num())
 			{
 				SlotWidget->CurrentItem = Items[i];
+				if (i < ActorItems.Num() && ActorItems[i])
+				{
+					SlotWidget->CurrentActorItem = ActorItems[i];
+					UE_LOG(LogTemp, Warning, TEXT("Slot %d: Actor atribuído!"), i);
+				}
+				else
+				{
+					SlotWidget->CurrentActorItem = nullptr;
+					UE_LOG(LogTemp, Warning, TEXT("Slot %d: Nenhum actor"), i);
+				}
 				SlotWidget->RefreshSlot();
 			}
 			else
 			{
 				SlotWidget->CurrentItem = FItemData();
+				SlotWidget->CurrentActorItem = nullptr;
 				SlotWidget->RefreshSlot();
 			}
 

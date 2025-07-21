@@ -4,6 +4,7 @@
 #include "Blueprint/UserWidget.h"
 #include "S_ItemData.h"
 #include "W_InventoryGrid.h"
+#include "SurvivalHorrorGame/Items/BaseItem.h"
 #include "SurvivalHorrorGame/Player/PlayerCharacter.h"
 #include "W_ItemSlot.generated.h"
 
@@ -14,6 +15,9 @@ class SURVIVALHORRORGAME_API UW_ItemSlot : public UUserWidget
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Inventory|Item")
 	FItemData CurrentItem;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Inventory|Item")
+	ABaseItem* CurrentActorItem;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Item Slot")
 	int32 SlotIndex;
@@ -42,6 +46,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
 	UW_InventoryGrid* InventoryGrid;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseItem|Inspect")
+	TSubclassOf<AInspectItem> InspectItemClass;
+
 	UFUNCTION()
 	void OnItemHovered();
 	UFUNCTION()
@@ -58,6 +65,9 @@ public:
 	void OnInspectEventTriggered(FItemData ItemData);
 	UFUNCTION()
 	void OnDeleteEventTriggered(FItemData ItemData);
+
+	UFUNCTION(BlueprintCallable, Category = "Inspect Item")
+	void SpawnActor(APlayerController* Player, UW_InventoryGrid* Inventory);
 protected:
 	virtual void NativeConstruct() override;
 	

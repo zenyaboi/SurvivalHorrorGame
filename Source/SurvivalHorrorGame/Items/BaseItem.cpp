@@ -121,8 +121,6 @@ bool ABaseItem::Interact_Implementation(ACharacter* Interactor)
 		UE_LOG(LogTemp, Warning, TEXT("Cast para PlayerCharacter bem-sucedido!"));
 		UInventoryComponent* InventoryComponent = Player->GetInventoryComponent();
 		
-		SpawnActor(PlayerController, InventoryComponent);
-		
 		InventoryComponent->AddItemToInventory(this);
 		return true;
 	}

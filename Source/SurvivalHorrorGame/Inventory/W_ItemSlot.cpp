@@ -156,9 +156,40 @@ void UW_ItemSlot::OnCombineEventTriggered(FItemData ItemData)
 void UW_ItemSlot::OnInspectEventTriggered(FItemData ItemData)
 {
 	UE_LOG(LogTemp, Warning, TEXT("BITCHES ARE TRIPPING"));
+	
+	SpawnActor(PlayerController, InventoryGrid);
 }
 
 void UW_ItemSlot::OnDeleteEventTriggered(FItemData ItemData)
 {
 	UE_LOG(LogTemp, Warning, TEXT("BITCHES ARE TRIPPING"));
+}
+
+void UW_ItemSlot::SpawnActor(APlayerController* Player, UW_InventoryGrid* Inventory)
+{
+	UE_LOG(LogTemp, Warning, TEXT("HEY"));
+
+	if (!InspectItemClass)
+	{
+		UE_LOG(LogTemp, Error, TEXT("InspectItemClass não está definido!"));
+		return;
+	}
+	
+	FVector SpawnLocation = FVector(10000000.0f, 0.0f, 0.0f);
+	FRotator SpawnRotation = FRotator(0.0f, 0.0f, 0.0f);
+	
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.Owner = CurrentActorItem;
+	SpawnParams.Instigator = CurrentActorItem->GetInstigator();
+
+	AInspectItem* newItem = GetWorld()->SpawnActor<AInspectItem>(
+		InspectItemClass,
+		SpawnLocation,
+		SpawnRotation
+		);
+
+	if (!Inventory)
+		return;
+	
+	IInteract::Execute_Inspect(newItem, Player, CurrentItem.ItemMesh, CurrentItem.ItemName, CurrentItem.ItemDescription, Inventory);
 }

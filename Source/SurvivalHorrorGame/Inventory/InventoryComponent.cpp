@@ -1,4 +1,5 @@
 #include "SurvivalHorrorGame/Inventory/InventoryComponent.h"
+#include "W_ItemSlot.h"
 #include "Blueprint/UserWidget.h"
 
 // Sets default values for this component's properties
@@ -47,6 +48,7 @@ void UInventoryComponent::RefreshInventory()
 	{
 		InventoryGrid->Items = Items;
 		InventoryGrid->InventorySize = InventorySize;
+		InventoryGrid->ActorItems = ActorItems;
 		InventoryGrid->RefreshInventory();
 	}
 }
@@ -113,6 +115,11 @@ FAddItemResult UInventoryComponent::AddItemToInventory(ABaseItem* Item)
 		return Result;
 	}
 
+	if (ActorItems.Num() < InventorySize)
+	{
+		ActorItems.SetNum(InventorySize);
+	}
+
 	UE_LOG(LogTemp, Warning, TEXT("Válido"));
 	
 	FItemData InteractedItem = Item->GetItemDataConstRef();
@@ -132,13 +139,21 @@ FAddItemResult UInventoryComponent::AddItemToInventory(ABaseItem* Item)
 	{
 		FItemData& CurrentItem = Items[i];
 
-		// Tenta empilhar apenas se o slot tem algo
 		if (CurrentItem.ItemAmount > 0 && !CurrentItem.ItemName.IsEmpty())
 		{
 			shouldStack = ShouldStackItems(CurrentItem, InteractedItem);
 			if (shouldStack.CanStack)
 			{
 				CurrentItem.ItemAmount = shouldStack.NewQuantity;
+
+				if (!ActorItems[i])
+				{
+					ActorItems[i] = Item;
+				}
+				else
+				{
+					DestroyItem(Item);
+				}
 
 				Result.WasAdded = true;
 				Result.TargetSlotIndex = i;
@@ -157,13 +172,17 @@ FAddItemResult UInventoryComponent::AddItemToInventory(ABaseItem* Item)
 	{
 		if (EmptySlot >= Items.Num())
 			Items.SetNum(EmptySlot + 1);
+		if (EmptySlot >= ActorItems.Num())
+			ActorItems.SetNum(EmptySlot + 1);
+		
 		Items[EmptySlot] = InteractedItem;
+		ActorItems[EmptySlot] = Item;
 
 		Result.WasAdded = true;
 		Result.TargetSlotIndex = EmptySlot;
 		Result.WasStacked = false;
 		Result.FinalQuantity = InteractedItem.ItemAmount;
-
+		
 		DestroyItem(Item);
 		RefreshInventory();
 		return Result;
