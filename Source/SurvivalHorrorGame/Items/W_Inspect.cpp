@@ -1,5 +1,6 @@
 #include "W_Inspect.h"
-#include "InspectItem.h" 
+#include "SurvivalHorrorGame/Inventory/W_InventoryGrid.h"
+#include "InspectItem.h"
 
 void UW_Inspect::NativeConstruct()
 {
@@ -11,6 +12,7 @@ void UW_Inspect::NativeConstruct()
 	LastMousePosition = FVector2D::ZeroVector;
 	IsLeftMousePressed = false;
 	IsRightMousePressed = false;
+	
 }
 
 FReply UW_Inspect::NativeOnMouseMove(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
