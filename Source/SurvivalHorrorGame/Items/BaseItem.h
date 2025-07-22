@@ -50,7 +50,7 @@ protected:
 
 	virtual bool Interact_Implementation(ACharacter* Interactor) override;
 	virtual void Inspect_Implementation(APlayerController* Interactor, UStaticMesh* ItemMesh,
-		const FText& ItemName, const FText& ItemDescription, UW_InventoryGrid* InventoryRef) override;
+		const FText& ItemName, const FText& ItemDescription, UW_Inventory* InventoryRef) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseItem|Inventory")
 	FItemData Item;

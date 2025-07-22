@@ -29,8 +29,8 @@ void UInventoryComponent::BeginPlay()
 		InventoryGrid = Cast<UW_InventoryGrid>(InventoryReference);
 		if (InventoryGrid)
 		{
-			InventoryGrid->Items = Items;
-			InventoryGrid->InventorySize = InventorySize;
+			InventoryGrid->UW_InventoryWidget->Items = Items;
+			InventoryGrid->UW_InventoryWidget->InventorySize = InventorySize;
 			RefreshInventory();
 		}
 	}
@@ -46,10 +46,10 @@ void UInventoryComponent::RefreshInventory()
 {
 	if (InventoryGrid)
 	{
-		InventoryGrid->Items = Items;
-		InventoryGrid->InventorySize = InventorySize;
-		InventoryGrid->ActorItems = ActorItems;
-		InventoryGrid->RefreshInventory();
+		InventoryGrid->UW_InventoryWidget->Items = Items;
+		InventoryGrid->UW_InventoryWidget->InventorySize = InventorySize;
+		InventoryGrid->UW_InventoryWidget->ActorItems = ActorItems;
+		InventoryGrid->UW_InventoryWidget->RefreshInventory();
 	}
 }
 

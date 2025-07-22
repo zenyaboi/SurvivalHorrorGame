@@ -15,13 +15,13 @@ public:
 	virtual void NativeConstruct() override;
 	
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-	class UWidgetSwitcher* InventorySwitcher;
+	class UWidgetSwitcher* Switcher;
 	
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-	class UW_Inventory* W_InventoryWidget;
+	class UW_Inventory* UW_InventoryWidget;
 	
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-	class UW_Combine* W_CombineWidget;
+	class UW_Combine* UW_CombineWidget;
 	
 	UPROPERTY(BlueprintReadWrite, Category = "Inventory")
 	TArray<FItemData> Items;
@@ -42,7 +42,7 @@ public:
 	void SwitchToCombine();
 	
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
-	UW_Inventory* GetInventoryWidget() const { return W_InventoryWidget; }
+	UW_Inventory* GetInventoryWidget() const { return UW_InventoryWidget; }
 	
 	virtual FReply NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
 	virtual FReply NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent) override;

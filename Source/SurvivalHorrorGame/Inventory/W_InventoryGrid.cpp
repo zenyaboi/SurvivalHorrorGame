@@ -10,17 +10,17 @@ void UW_InventoryGrid::NativeConstruct()
     
 	SetIsFocusable(true);
 	
-	if (InventorySwitcher)
+	if (Switcher)
 	{
-		InventorySwitcher->SetActiveWidgetIndex(0);
+		Switcher->SetActiveWidgetIndex(0);
 		CurrentTabIndex = 0;
 	}
 	
-	if (W_InventoryWidget)
+	if (UW_InventoryWidget)
 	{
-		W_InventoryWidget->Items = Items;
-		W_InventoryWidget->InventorySize = InventorySize;
-		W_InventoryWidget->ActorItems = ActorItems;
+		UW_InventoryWidget->Items = Items;
+		UW_InventoryWidget->InventorySize = InventorySize;
+		UW_InventoryWidget->ActorItems = ActorItems;
 	}
 }
 
@@ -28,21 +28,21 @@ void UW_InventoryGrid::RefreshInventory()
 {
 	UE_LOG(LogTemp, Warning, TEXT("InventoryGrid: RefreshInventory chamado"));
 	
-	if (W_InventoryWidget)
+	if (UW_InventoryWidget)
 	{
-		W_InventoryWidget->Items = Items;
-		W_InventoryWidget->InventorySize = InventorySize;
-		W_InventoryWidget->ActorItems = ActorItems;
+		UW_InventoryWidget->Items = Items;
+		UW_InventoryWidget->InventorySize = InventorySize;
+		UW_InventoryWidget->ActorItems = ActorItems;
 		
-		W_InventoryWidget->RefreshInventory();
+		UW_InventoryWidget->RefreshInventory();
 	}
 }
 
 void UW_InventoryGrid::SwitchToInventory()
 {
-	if (InventorySwitcher)
+	if (Switcher)
 	{
-		InventorySwitcher->SetActiveWidgetIndex(0);
+		Switcher->SetActiveWidgetIndex(0);
 		CurrentTabIndex = 0;
 		UE_LOG(LogTemp, Warning, TEXT("Switched to Inventory tab"));
 		
@@ -52,9 +52,9 @@ void UW_InventoryGrid::SwitchToInventory()
 
 void UW_InventoryGrid::SwitchToCombine()
 {
-	if (InventorySwitcher)
+	if (Switcher)
 	{
-		InventorySwitcher->SetActiveWidgetIndex(1);
+		Switcher->SetActiveWidgetIndex(1);
 		CurrentTabIndex = 1;
 		UE_LOG(LogTemp, Warning, TEXT("Switched to Combine tab"));
 	}
