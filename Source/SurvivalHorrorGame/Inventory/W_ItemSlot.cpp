@@ -104,6 +104,7 @@ void UW_ItemSlot::OnItemUnhovered()
 	}
 
 	Selection->SetVisibility(ESlateVisibility::Hidden);
+	InventoryGrid->HB_TopBar->SetVisibility(ESlateVisibility::Visible);
 }
 
 void UW_ItemSlot::OnClicked()
