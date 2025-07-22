@@ -29,6 +29,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	class UImage* InventorySlotImage;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class UTexture2D* EmptySlotImage;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory|Selection", meta = (BindWidget))
 	class UW_Selection* Selection;
 

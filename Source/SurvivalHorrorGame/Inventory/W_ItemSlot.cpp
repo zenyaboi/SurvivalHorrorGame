@@ -58,6 +58,10 @@ void UW_ItemSlot::RefreshSlot()
 		{
 			ItemAmountBorder->SetVisibility(ESlateVisibility::Hidden);
 		}
+		if (InventorySlotImage)
+		{
+			InventorySlotImage->SetBrushFromTexture(EmptySlotImage);
+		}
 	}
 }
 
