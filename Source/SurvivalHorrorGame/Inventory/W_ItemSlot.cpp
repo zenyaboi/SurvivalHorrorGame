@@ -58,6 +58,10 @@ void UW_ItemSlot::RefreshSlot()
 		{
 			ItemAmountBorder->SetVisibility(ESlateVisibility::Hidden);
 		}
+		if (InventorySlotImage)
+		{
+			InventorySlotImage->SetBrushFromTexture(EmptySlotImage);
+		}
 	}
 }
 
@@ -65,7 +69,7 @@ void UW_ItemSlot::OnItemHovered()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Item hovered"));
 	
-	if (!InventoryGrid || !InventoryGrid->IsValidLowLevel())
+	if (!Inventory || !Inventory->IsValidLowLevel())
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Inventory boo"));
 		return;
@@ -74,13 +78,13 @@ void UW_ItemSlot::OnItemHovered()
 	UE_LOG(LogTemp, Warning, TEXT("Item Name: %s"), *CurrentItem.ItemName.ToString());
 	UE_LOG(LogTemp, Warning, TEXT("Item Desc: %s"), *CurrentItem.ItemDescription.ToString());
 
-	if (InventoryGrid->ItemName)
+	if (Inventory->ItemName)
     {
-		InventoryGrid->ItemName->SetText(CurrentItem.ItemName);
+		Inventory->ItemName->SetText(CurrentItem.ItemName);
     }
-	if (InventoryGrid->ItemDescription)
+	if (Inventory->ItemDescription)
 	{
-		InventoryGrid->ItemDescription->SetText(CurrentItem.ItemDescription);
+		Inventory->ItemDescription->SetText(CurrentItem.ItemDescription);
 	}
 }
 
@@ -88,22 +92,23 @@ void UW_ItemSlot::OnItemUnhovered()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Item Unhovered"));
 	
-	if (!InventoryGrid || !InventoryGrid->IsValidLowLevel())
+	if (!Inventory || !Inventory->IsValidLowLevel())
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Inventory boo"));
 		return;
 	}
 
-	if (InventoryGrid->ItemName)
+	if (Inventory->ItemName)
 	{
-		InventoryGrid->ItemName->SetText(FText::GetEmpty());
+		Inventory->ItemName->SetText(FText::GetEmpty());
 	}
-	if (InventoryGrid->ItemDescription)
+	if (Inventory->ItemDescription)
 	{
-		InventoryGrid->ItemDescription->SetText(FText::GetEmpty());
+		Inventory->ItemDescription->SetText(FText::GetEmpty());
 	}
 
 	Selection->SetVisibility(ESlateVisibility::Hidden);
+	InventoryGrid->HB_TopBar->SetVisibility(ESlateVisibility::Visible);
 }
 
 void UW_ItemSlot::OnClicked()
@@ -119,11 +124,29 @@ void UW_ItemSlot::OnClicked()
 	if (Selection->GetVisibility() == ESlateVisibility::Visible)
 	{
 		Selection->SetVisibility(ESlateVisibility::Hidden);
+		if (InventoryGrid && IsValid(InventoryGrid) && InventoryGrid->HB_TopBar)
+		{
+			InventoryGrid->HB_TopBar->SetVisibility(ESlateVisibility::Visible);
+			UE_LOG(LogTemp, Warning, TEXT("TopBar set to Visible"));
+		}
+		else
+		{
+			UE_LOG(LogTemp, Error, TEXT("InventoryGrid or HB_TopBar is null"));
+		}
 		return;
 	}
 
 	Selection->SetCurrentItem(CurrentItem);
 	Selection->SetVisibility(ESlateVisibility::Visible);
+	if (InventoryGrid && IsValid(InventoryGrid) && InventoryGrid->HB_TopBar)
+	{
+		InventoryGrid->HB_TopBar->SetVisibility(ESlateVisibility::Hidden);
+		UE_LOG(LogTemp, Warning, TEXT("TopBar set to Hidden"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("InventoryGrid or HB_TopBar is null"));
+	}
 }
 
 void UW_ItemSlot::SetupButtons()
@@ -165,7 +188,7 @@ void UW_ItemSlot::OnDeleteEventTriggered(APlayerController* PlayerControllerRef,
 	UE_LOG(LogTemp, Warning, TEXT("BITCHES ARE TRIPPING"));
 }
 
-void UW_ItemSlot::SpawnActor(APlayerController* Player, UW_InventoryGrid* Inventory)
+void UW_ItemSlot::SpawnActor(APlayerController* Player, UW_InventoryGrid* InventoryRef)
 {
 	UE_LOG(LogTemp, Warning, TEXT("HEY"));
 
@@ -191,5 +214,5 @@ void UW_ItemSlot::SpawnActor(APlayerController* Player, UW_InventoryGrid* Invent
 	if (!Inventory)
 		return;
 	
-	IInteract::Execute_Inspect(newItem, Player, CurrentItem.ItemMesh, CurrentItem.ItemName, CurrentItem.ItemDescription, Inventory);
+	IInteract::Execute_Inspect(newItem, Player, CurrentItem.ItemMesh, CurrentItem.ItemName, CurrentItem.ItemDescription, InventoryRef);
 }
