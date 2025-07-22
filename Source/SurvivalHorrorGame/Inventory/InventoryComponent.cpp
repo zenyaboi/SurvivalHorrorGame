@@ -83,7 +83,7 @@ void UInventoryComponent::ToggleInventory()
 	
 	UE_LOG(LogTemp, Warning, TEXT("PlayerController encontrado!"));
 
-	InventoryGrid->UW_InventoryWidget->RefreshInventory();
+	RefreshInventory();
 
 	isInventoryVisible = !isInventoryVisible;
 	UE_LOG(LogTemp, Warning, TEXT("bIsInventoryVisible = %s"), isInventoryVisible ? TEXT("True") : TEXT("False"));

@@ -43,47 +43,6 @@ void UW_Inventory::RefreshInventory()
 		UE_LOG(LogTemp, Error, TEXT("SlotWidgetClass não configurado!"));
 		return;
 	}
-
-	int32 ExistingSlots = WrapBoxInventory->GetChildrenCount();
-	if (ExistingSlots == InventorySize)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Atualizando slots existentes (%d slots)"), ExistingSlots);
-		
-		for (int32 i = 0; i < InventorySize && i < ExistingSlots; i++)
-		{
-			if (UWidget* ChildWidget = WrapBoxInventory->GetChildAt(i))
-			{
-				if (UW_ItemSlot* SlotWidget = Cast<UW_ItemSlot>(ChildWidget))
-				{
-					SlotWidget->InventoryGrid = ParentInventoryGrid;
-					SlotWidget->Inventory = this;
-					SlotWidget->SlotIndex = i;
-
-					if (i < Items.Num())
-					{
-						SlotWidget->CurrentItem = Items[i];
-						if (i < ActorItems.Num() && ActorItems[i])
-						{
-							SlotWidget->CurrentActorItem = ActorItems[i];
-						}
-						else
-						{
-							SlotWidget->CurrentActorItem = nullptr;
-						}
-					}
-					else
-					{
-						SlotWidget->CurrentItem = FItemData();
-						SlotWidget->CurrentActorItem = nullptr;
-					}
-					
-					SlotWidget->RefreshSlot();
-					UE_LOG(LogTemp, Warning, TEXT("Slot %d atualizado"), i);
-				}
-			}
-		}
-		return;
-	}
 	
 	WrapBoxInventory->ClearChildren();
     
