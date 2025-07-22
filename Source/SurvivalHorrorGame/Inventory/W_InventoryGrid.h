@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/WidgetSwitcher.h"
+#include "Components/HorizontalBox.h"
 #include "S_ItemData.h"
 #include "SurvivalHorrorGame/Items/BaseItem.h"
 #include "W_InventoryGrid.generated.h"
@@ -16,6 +17,9 @@ public:
 	
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	class UWidgetSwitcher* Switcher;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UHorizontalBox* HB_TopBar;
 	
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	class UW_Inventory* UW_InventoryWidget;

@@ -18,6 +18,19 @@ void UW_Inventory::NativeConstruct()
 void UW_Inventory::RefreshInventory()
 {
 	UE_LOG(LogTemp, Warning, TEXT("RefreshInventory C++ executado"));
+
+	if (ParentInventoryGrid)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("ParentInventoryGrid é válido"));
+		if (ParentInventoryGrid->HB_TopBar)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("HB_TopBar do ParentInventoryGrid é válido"));
+		}
+		else
+		{
+			UE_LOG(LogTemp, Error, TEXT("HB_TopBar do ParentInventoryGrid é NULO"));
+		}
+	}
     
 	if (!WrapBoxInventory)
 	{
@@ -30,7 +43,48 @@ void UW_Inventory::RefreshInventory()
 		UE_LOG(LogTemp, Error, TEXT("SlotWidgetClass não configurado!"));
 		return;
 	}
-    
+
+	int32 ExistingSlots = WrapBoxInventory->GetChildrenCount();
+	if (ExistingSlots == InventorySize)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Atualizando slots existentes (%d slots)"), ExistingSlots);
+		
+		for (int32 i = 0; i < InventorySize && i < ExistingSlots; i++)
+		{
+			if (UWidget* ChildWidget = WrapBoxInventory->GetChildAt(i))
+			{
+				if (UW_ItemSlot* SlotWidget = Cast<UW_ItemSlot>(ChildWidget))
+				{
+					SlotWidget->InventoryGrid = ParentInventoryGrid;
+					SlotWidget->Inventory = this;
+					SlotWidget->SlotIndex = i;
+
+					if (i < Items.Num())
+					{
+						SlotWidget->CurrentItem = Items[i];
+						if (i < ActorItems.Num() && ActorItems[i])
+						{
+							SlotWidget->CurrentActorItem = ActorItems[i];
+						}
+						else
+						{
+							SlotWidget->CurrentActorItem = nullptr;
+						}
+					}
+					else
+					{
+						SlotWidget->CurrentItem = FItemData();
+						SlotWidget->CurrentActorItem = nullptr;
+					}
+					
+					SlotWidget->RefreshSlot();
+					UE_LOG(LogTemp, Warning, TEXT("Slot %d atualizado"), i);
+				}
+			}
+		}
+		return;
+	}
+	
 	WrapBoxInventory->ClearChildren();
     
 	for (int32 i = 0; i < InventorySize; i++)
@@ -39,6 +93,13 @@ void UW_Inventory::RefreshInventory()
         
 		if (SlotWidget)
 		{
+			SlotWidget->InventoryGrid = ParentInventoryGrid;
+			SlotWidget->Inventory = this;
+			UE_LOG(LogTemp, Warning, TEXT("Slot %d: Referências definidas - InventoryGrid: %s, Inventory: %s"), 
+				   i,
+				   SlotWidget->InventoryGrid ? TEXT("Valid") : TEXT("NULL"),
+				   SlotWidget->Inventory ? TEXT("Valid") : TEXT("NULL"));
+			
 			SlotWidget->SlotIndex = i;
 
 			if (i < Items.Num())
@@ -63,7 +124,16 @@ void UW_Inventory::RefreshInventory()
 				SlotWidget->RefreshSlot();
 			}
 
-			SlotWidget->InventoryGrid = Cast<UW_InventoryGrid>(GetParent());
+			if (SlotWidget->InventoryGrid)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Slot %d: InventoryGrid definido com sucesso"), i);
+			}
+			else
+			{
+				UE_LOG(LogTemp, Error, TEXT("Slot %d: FALHA ao definir InventoryGrid"), i);
+			}
+
+			SlotWidget->InventoryGrid = ParentInventoryGrid;
 			
 			WrapBoxInventory->AddChild(SlotWidget);
 			UE_LOG(LogTemp, Warning, TEXT("Slot %d criado"), i);

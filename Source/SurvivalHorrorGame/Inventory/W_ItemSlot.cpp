@@ -119,11 +119,29 @@ void UW_ItemSlot::OnClicked()
 	if (Selection->GetVisibility() == ESlateVisibility::Visible)
 	{
 		Selection->SetVisibility(ESlateVisibility::Hidden);
+		if (InventoryGrid && IsValid(InventoryGrid) && InventoryGrid->HB_TopBar)
+		{
+			InventoryGrid->HB_TopBar->SetVisibility(ESlateVisibility::Visible);
+			UE_LOG(LogTemp, Warning, TEXT("TopBar set to Visible"));
+		}
+		else
+		{
+			UE_LOG(LogTemp, Error, TEXT("InventoryGrid or HB_TopBar is null"));
+		}
 		return;
 	}
 
 	Selection->SetCurrentItem(CurrentItem);
 	Selection->SetVisibility(ESlateVisibility::Visible);
+	if (InventoryGrid && IsValid(InventoryGrid) && InventoryGrid->HB_TopBar)
+	{
+		InventoryGrid->HB_TopBar->SetVisibility(ESlateVisibility::Hidden);
+		UE_LOG(LogTemp, Warning, TEXT("TopBar set to Hidden"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("InventoryGrid or HB_TopBar is null"));
+	}
 }
 
 void UW_ItemSlot::SetupButtons()

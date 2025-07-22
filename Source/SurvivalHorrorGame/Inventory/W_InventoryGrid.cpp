@@ -21,6 +21,7 @@ void UW_InventoryGrid::NativeConstruct()
 		UW_InventoryWidget->Items = Items;
 		UW_InventoryWidget->InventorySize = InventorySize;
 		UW_InventoryWidget->ActorItems = ActorItems;
+		UW_InventoryWidget->ParentInventoryGrid = this;
 	}
 }
 
@@ -34,7 +35,17 @@ void UW_InventoryGrid::RefreshInventory()
 		UW_InventoryWidget->InventorySize = InventorySize;
 		UW_InventoryWidget->ActorItems = ActorItems;
 		
+		UW_InventoryWidget->ParentInventoryGrid = this;
+		
+		UE_LOG(LogTemp, Warning, TEXT("Referências reconfiguradas - ParentInventoryGrid: %s, HB_TopBar: %s"), 
+			   UW_InventoryWidget->ParentInventoryGrid ? TEXT("Valid") : TEXT("NULL"),
+			   (UW_InventoryWidget->ParentInventoryGrid && UW_InventoryWidget->ParentInventoryGrid->HB_TopBar) ? TEXT("Valid") : TEXT("NULL"));
+		
 		UW_InventoryWidget->RefreshInventory();
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("UW_InventoryWidget é nulo em RefreshInventory!"));
 	}
 }
 

@@ -21,6 +21,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "Inventory")
 	int32 InventorySize;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
+	UW_InventoryGrid* ParentInventoryGrid;
+
 	UPROPERTY(BlueprintReadWrite, Category = "Inventory")
 	TArray<ABaseItem*> ActorItems;
 
