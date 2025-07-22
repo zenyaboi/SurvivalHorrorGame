@@ -8,7 +8,7 @@
 #include "InspectItem.generated.h"
 
 class UW_Inspect;
-class UW_Inventory;
+class UW_InventoryGrid;
 
 UCLASS()
 class SURVIVALHORRORGAME_API AInspectItem : public AActor, public IInteract
@@ -49,7 +49,7 @@ protected:
 	// Interface Functions
 	virtual bool Interact_Implementation(ACharacter* Interactor) override;
 	virtual void Inspect_Implementation(APlayerController* Interactor, UStaticMesh* ItemMesh,
-		const FText& ItemName, const FText& ItemDescription, UW_Inventory* InventoryRef) override;
+		const FText& ItemName, const FText& ItemDescription, UW_InventoryGrid* InventoryRef) override;
 
 	// Components References
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mesh")
@@ -67,7 +67,7 @@ protected:
 
 	// Inventory Widget Reference
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
-	UW_Inventory* Inventory;
+	UW_InventoryGrid* Inventory;
 
 	// Rotation and Scale Variables
 	UPROPERTY(BlueprintReadWrite, Category = "Inspection")

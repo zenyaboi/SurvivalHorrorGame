@@ -47,6 +47,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
 	UW_Inventory* Inventory;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
+	TSubclassOf<UUserWidget> WInventoryGridClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
+	UW_InventoryGrid* InventoryGrid;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseItem|Inspect")
 	TSubclassOf<AInspectItem> InspectItemClass;
 
@@ -68,7 +74,7 @@ public:
 	void OnDeleteEventTriggered(APlayerController* PlayerControllerRef, FItemData CurrentItemRef);
 
 	UFUNCTION(BlueprintCallable, Category = "Inspect Item")
-	void SpawnActor(APlayerController* Player, UW_Inventory* InventoryRef);
+	void SpawnActor(APlayerController* Player, UW_InventoryGrid* InventoryRef);
 protected:
 	virtual void NativeConstruct() override;
 	

@@ -133,7 +133,7 @@ bool ABaseItem::Interact_Implementation(ACharacter* Interactor)
 
 void ABaseItem::Inspect_Implementation(APlayerController* Interactor, UStaticMesh* ItemMesh,
 										const FText& ItemName, const FText& ItemDescription, 
-										UW_Inventory* InventoryRef)
+										UW_InventoryGrid* InventoryRef)
 {
 	UE_LOG(LogTemp, Warning, TEXT("A"));
 }

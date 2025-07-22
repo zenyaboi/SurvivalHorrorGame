@@ -45,8 +45,6 @@ void UW_InventoryGrid::SwitchToInventory()
 		Switcher->SetActiveWidgetIndex(0);
 		CurrentTabIndex = 0;
 		UE_LOG(LogTemp, Warning, TEXT("Switched to Inventory tab"));
-		
-		RefreshInventory();
 	}
 }
 

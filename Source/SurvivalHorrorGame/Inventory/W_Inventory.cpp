@@ -63,7 +63,7 @@ void UW_Inventory::RefreshInventory()
 				SlotWidget->RefreshSlot();
 			}
 
-			SlotWidget->Inventory = this;
+			SlotWidget->InventoryGrid = Cast<UW_InventoryGrid>(GetParent());
 			
 			WrapBoxInventory->AddChild(SlotWidget);
 			UE_LOG(LogTemp, Warning, TEXT("Slot %d criado"), i);

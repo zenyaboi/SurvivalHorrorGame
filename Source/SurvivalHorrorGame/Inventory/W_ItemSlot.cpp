@@ -157,7 +157,7 @@ void UW_ItemSlot::OnInspectEventTriggered(FItemData ItemData)
 {
 	UE_LOG(LogTemp, Warning, TEXT("BITCHES ARE TRIPPING"));
 	
-	SpawnActor(PlayerController, Inventory);
+	SpawnActor(PlayerController, InventoryGrid);
 }
 
 void UW_ItemSlot::OnDeleteEventTriggered(APlayerController* PlayerControllerRef, FItemData CurrentItemRef)
@@ -165,7 +165,7 @@ void UW_ItemSlot::OnDeleteEventTriggered(APlayerController* PlayerControllerRef,
 	UE_LOG(LogTemp, Warning, TEXT("BITCHES ARE TRIPPING"));
 }
 
-void UW_ItemSlot::SpawnActor(APlayerController* Player, UW_Inventory* InventoryRef)
+void UW_ItemSlot::SpawnActor(APlayerController* Player, UW_InventoryGrid* InventoryRef)
 {
 	UE_LOG(LogTemp, Warning, TEXT("HEY"));
 
@@ -191,5 +191,5 @@ void UW_ItemSlot::SpawnActor(APlayerController* Player, UW_Inventory* InventoryR
 	if (!Inventory)
 		return;
 	
-	IInteract::Execute_Inspect(newItem, Player, CurrentItem.ItemMesh, CurrentItem.ItemName, CurrentItem.ItemDescription, Inventory);
+	IInteract::Execute_Inspect(newItem, Player, CurrentItem.ItemMesh, CurrentItem.ItemName, CurrentItem.ItemDescription, InventoryRef);
 }

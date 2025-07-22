@@ -4,7 +4,6 @@
 #include "Blueprint/UserWidget.h"
 #include "Components/WrapBox.h"
 #include "S_ItemData.h"
-#include "W_InventoryGrid.h"
 #include "Components/TextBlock.h"
 #include "SurvivalHorrorGame/Items/BaseItem.h"
 #include "W_Inventory.generated.h"

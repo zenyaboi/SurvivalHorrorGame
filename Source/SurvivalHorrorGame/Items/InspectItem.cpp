@@ -150,7 +150,7 @@ void AInspectItem::CloseInspect(APlayerController* PlayerController)
 
 void AInspectItem::Inspect_Implementation(APlayerController* Interactor, UStaticMesh* ItemMesh,
 										const FText& ItemName, const FText& ItemDescription, 
-										UW_Inventory* InventoryRef)
+										UW_InventoryGrid* InventoryRef)
 {
 	UE_LOG(LogTemp, Warning, TEXT("A"));
 	if (!InspectWidget)
