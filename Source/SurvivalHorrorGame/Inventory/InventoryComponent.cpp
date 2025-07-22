@@ -29,8 +29,6 @@ void UInventoryComponent::BeginPlay()
 		InventoryGrid = Cast<UW_InventoryGrid>(InventoryReference);
 		if (InventoryGrid)
 		{
-			InventoryGrid->Items = Items;
-			InventoryGrid->InventorySize = InventorySize;
 			RefreshInventory();
 		}
 	}
@@ -46,10 +44,21 @@ void UInventoryComponent::RefreshInventory()
 {
 	if (InventoryGrid)
 	{
-		InventoryGrid->Items = Items;
-		InventoryGrid->InventorySize = InventorySize;
-		InventoryGrid->ActorItems = ActorItems;
-		InventoryGrid->RefreshInventory();
+		UE_LOG(LogTemp, Warning, TEXT("InventoryComponent: Atualizando dados do inventário"));
+		
+		InventoryGrid->UW_InventoryWidget->Items = Items;
+		InventoryGrid->UW_InventoryWidget->InventorySize = InventorySize;
+		InventoryGrid->UW_InventoryWidget->ActorItems = ActorItems;
+		
+		InventoryGrid->UW_InventoryWidget->ParentInventoryGrid = InventoryGrid;
+		
+		InventoryGrid->UW_InventoryWidget->RefreshInventory();
+		
+		UE_LOG(LogTemp, Warning, TEXT("InventoryComponent: RefreshInventory concluído"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("InventoryGrid é nulo em RefreshInventory!"));
 	}
 }
 
@@ -73,6 +82,8 @@ void UInventoryComponent::ToggleInventory()
 	}
 	
 	UE_LOG(LogTemp, Warning, TEXT("PlayerController encontrado!"));
+
+	RefreshInventory();
 
 	isInventoryVisible = !isInventoryVisible;
 	UE_LOG(LogTemp, Warning, TEXT("bIsInventoryVisible = %s"), isInventoryVisible ? TEXT("True") : TEXT("False"));

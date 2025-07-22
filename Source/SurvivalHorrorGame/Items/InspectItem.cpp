@@ -2,6 +2,7 @@
 #include "Blueprint/UserWidget.h"
 #include "W_Inspect.h"
 #include "Components/StaticMeshComponent.h"
+#include "SurvivalHorrorGame/Inventory/W_InventoryGrid.h"
 
 // Sets default values
 AInspectItem::AInspectItem()
@@ -169,6 +170,8 @@ void AInspectItem::Inspect_Implementation(APlayerController* Interactor, UStatic
 		InspectWidget->ItemName->SetText(ItemName);
 		InspectWidget->ItemDescription->SetText(ItemDescription);
 		InspectWidget->AddToViewport();
+		InspectWidget->InventoryGrid = InventoryRef;
+		InspectWidget->InventoryGrid->HB_TopBar->SetVisibility(ESlateVisibility::Visible);
 
 		// Making sure the game know we are controlling the Inspect
 		Interactor->DisableInput(Interactor);

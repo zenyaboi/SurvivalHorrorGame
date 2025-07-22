@@ -16,6 +16,9 @@ public:
 	UTextBlock* ItemName;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
 	UTextBlock* ItemDescription;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UW_InventoryGrid* InventoryGrid;
 	
 	UPROPERTY(BlueprintReadWrite, Category = "Inspect")
 	AInspectItem* InspectItemRef;

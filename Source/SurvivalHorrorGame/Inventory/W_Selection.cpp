@@ -164,6 +164,9 @@ void UW_Selection::DeleteItem(APlayerController* PlayerControllerRef, FItemData 
 	int32 ItemIndex = InvTarget->Items.Find(CurrentItemRef);
 
 	InvTarget->Items.RemoveAt(ItemIndex);
+	InvTarget->ActorItems.RemoveAt(ItemIndex);
+	
 	InvTarget->Items.SetNum(InvSize);
+	InvTarget->ActorItems.SetNum(InvSize);
 	InvTarget->RefreshInventory();
 }
