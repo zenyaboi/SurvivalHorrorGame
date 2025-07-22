@@ -1,80 +1,78 @@
-#include "SurvivalHorrorGame/Inventory/W_InventoryGrid.h"
-#include "SurvivalHorrorGame/Inventory/W_ItemSlot.h"
-#include "Components/WrapBox.h"
-#include "Components/TextBlock.h"
-#include "Components/Image.h"
+#include "W_InventoryGrid.h"
+#include "W_Inventory.h"
+#include "W_Combine.h"
+#include "Components/WidgetSwitcher.h"
 #include "InventoryComponent.h"
-#include "Components/Border.h"
 
 void UW_InventoryGrid::NativeConstruct()
 {
 	Super::NativeConstruct();
     
 	SetIsFocusable(true);
-
-	ItemName->SetText(FText::GetEmpty());
-	ItemDescription->SetText(FText::GetEmpty());
 	
+	if (InventorySwitcher)
+	{
+		InventorySwitcher->SetActiveWidgetIndex(0);
+		CurrentTabIndex = 0;
+	}
+	
+	if (W_InventoryWidget)
+	{
+		W_InventoryWidget->Items = Items;
+		W_InventoryWidget->InventorySize = InventorySize;
+		W_InventoryWidget->ActorItems = ActorItems;
+	}
 }
 
 void UW_InventoryGrid::RefreshInventory()
 {
-	UE_LOG(LogTemp, Warning, TEXT("RefreshInventory C++ executado"));
-    
-	if (!WrapBoxInventory)
+	UE_LOG(LogTemp, Warning, TEXT("InventoryGrid: RefreshInventory chamado"));
+	
+	if (W_InventoryWidget)
 	{
-		UE_LOG(LogTemp, Error, TEXT("WrapBoxInventory não encontrado!"));
-		return;
+		W_InventoryWidget->Items = Items;
+		W_InventoryWidget->InventorySize = InventorySize;
+		W_InventoryWidget->ActorItems = ActorItems;
+		
+		W_InventoryWidget->RefreshInventory();
 	}
-    
-	if (!SlotWidgetClass)
+}
+
+void UW_InventoryGrid::SwitchToInventory()
+{
+	if (InventorySwitcher)
 	{
-		UE_LOG(LogTemp, Error, TEXT("SlotWidgetClass não configurado!"));
-		return;
+		InventorySwitcher->SetActiveWidgetIndex(0);
+		CurrentTabIndex = 0;
+		UE_LOG(LogTemp, Warning, TEXT("Switched to Inventory tab"));
+		
+		RefreshInventory();
 	}
-    
-	WrapBoxInventory->ClearChildren();
-    
-	for (int32 i = 0; i < InventorySize; i++)
+}
+
+void UW_InventoryGrid::SwitchToCombine()
+{
+	if (InventorySwitcher)
 	{
-		UW_ItemSlot* SlotWidget = CreateWidget<UW_ItemSlot>(GetWorld(), SlotWidgetClass);
-        
-		if (SlotWidget)
-		{
-			SlotWidget->SlotIndex = i;
-
-			if (i < Items.Num())
-			{
-				SlotWidget->CurrentItem = Items[i];
-				if (i < ActorItems.Num() && ActorItems[i])
-				{
-					SlotWidget->CurrentActorItem = ActorItems[i];
-					UE_LOG(LogTemp, Warning, TEXT("Slot %d: Actor atribuído!"), i);
-				}
-				else
-				{
-					SlotWidget->CurrentActorItem = nullptr;
-					UE_LOG(LogTemp, Warning, TEXT("Slot %d: Nenhum actor"), i);
-				}
-				SlotWidget->RefreshSlot();
-			}
-			else
-			{
-				SlotWidget->CurrentItem = FItemData();
-				SlotWidget->CurrentActorItem = nullptr;
-				SlotWidget->RefreshSlot();
-			}
-
-			SlotWidget->InventoryGrid = this;
-			
-			WrapBoxInventory->AddChild(SlotWidget);
-			UE_LOG(LogTemp, Warning, TEXT("Slot %d criado"), i);
-		}
+		InventorySwitcher->SetActiveWidgetIndex(1);
+		CurrentTabIndex = 1;
+		UE_LOG(LogTemp, Warning, TEXT("Switched to Combine tab"));
 	}
 }
 
 FReply UW_InventoryGrid::NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
 {
+	if (InKeyEvent.GetKey() == EKeys::Q)
+	{
+		SwitchToInventory();
+		return FReply::Handled();
+	}
+	else if (InKeyEvent.GetKey() == EKeys::E)
+	{
+		SwitchToCombine();
+		return FReply::Handled();
+	}
+	
 	if (InKeyEvent.GetKey() == EKeys::Tab || InKeyEvent.GetKey() == EKeys::I || InKeyEvent.GetKey() == EKeys::Escape)
 	{
 		if (AActor* Owner = GetOwningPlayerPawn())

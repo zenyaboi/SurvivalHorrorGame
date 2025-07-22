@@ -65,7 +65,7 @@ void UW_ItemSlot::OnItemHovered()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Item hovered"));
 	
-	if (!InventoryGrid || !InventoryGrid->IsValidLowLevel())
+	if (!Inventory || !Inventory->IsValidLowLevel())
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Inventory boo"));
 		return;
@@ -74,13 +74,13 @@ void UW_ItemSlot::OnItemHovered()
 	UE_LOG(LogTemp, Warning, TEXT("Item Name: %s"), *CurrentItem.ItemName.ToString());
 	UE_LOG(LogTemp, Warning, TEXT("Item Desc: %s"), *CurrentItem.ItemDescription.ToString());
 
-	if (InventoryGrid->ItemName)
+	if (Inventory->ItemName)
     {
-		InventoryGrid->ItemName->SetText(CurrentItem.ItemName);
+		Inventory->ItemName->SetText(CurrentItem.ItemName);
     }
-	if (InventoryGrid->ItemDescription)
+	if (Inventory->ItemDescription)
 	{
-		InventoryGrid->ItemDescription->SetText(CurrentItem.ItemDescription);
+		Inventory->ItemDescription->SetText(CurrentItem.ItemDescription);
 	}
 }
 
@@ -88,19 +88,19 @@ void UW_ItemSlot::OnItemUnhovered()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Item Unhovered"));
 	
-	if (!InventoryGrid || !InventoryGrid->IsValidLowLevel())
+	if (!Inventory || !Inventory->IsValidLowLevel())
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Inventory boo"));
 		return;
 	}
 
-	if (InventoryGrid->ItemName)
+	if (Inventory->ItemName)
 	{
-		InventoryGrid->ItemName->SetText(FText::GetEmpty());
+		Inventory->ItemName->SetText(FText::GetEmpty());
 	}
-	if (InventoryGrid->ItemDescription)
+	if (Inventory->ItemDescription)
 	{
-		InventoryGrid->ItemDescription->SetText(FText::GetEmpty());
+		Inventory->ItemDescription->SetText(FText::GetEmpty());
 	}
 
 	Selection->SetVisibility(ESlateVisibility::Hidden);
@@ -157,7 +157,7 @@ void UW_ItemSlot::OnInspectEventTriggered(FItemData ItemData)
 {
 	UE_LOG(LogTemp, Warning, TEXT("BITCHES ARE TRIPPING"));
 	
-	SpawnActor(PlayerController, InventoryGrid);
+	SpawnActor(PlayerController, Inventory);
 }
 
 void UW_ItemSlot::OnDeleteEventTriggered(APlayerController* PlayerControllerRef, FItemData CurrentItemRef)
@@ -165,7 +165,7 @@ void UW_ItemSlot::OnDeleteEventTriggered(APlayerController* PlayerControllerRef,
 	UE_LOG(LogTemp, Warning, TEXT("BITCHES ARE TRIPPING"));
 }
 
-void UW_ItemSlot::SpawnActor(APlayerController* Player, UW_InventoryGrid* Inventory)
+void UW_ItemSlot::SpawnActor(APlayerController* Player, UW_Inventory* InventoryRef)
 {
 	UE_LOG(LogTemp, Warning, TEXT("HEY"));
 
