@@ -68,5 +68,8 @@ struct SURVIVALHORRORGAME_API FItemData
 		ItemHealAmount = 0;
 		ItemInspectionRotation = FRotator::ZeroRotator;
 		ItemInspectionScale = FVector::OneVector;
+		isItemCraftable = false;
+		ItemsToCraft = TArray<FString>();
+		ItemsToCraftImage = TArray<UTexture2D*>();
 	}
 };
