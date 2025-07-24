@@ -32,6 +32,12 @@ struct SURVIVALHORRORGAME_API FItemData
 	FRotator ItemInspectionRotation;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FVector ItemInspectionScale;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool isItemCraftable;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<FString> ItemsToCraft;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<UTexture2D*>ItemsToCraftImage;
 
 	bool operator==(const FItemData& Other) const
 	{
@@ -40,7 +46,8 @@ struct SURVIVALHORRORGAME_API FItemData
 				isItemStackable == Other.isItemStackable && ItemAmount == Other.ItemAmount &&
 					ItemMesh == Other.ItemMesh && ItemImage == Other.ItemImage &&
 						isItemHealable == Other.isItemHealable && ItemHealAmount == Other.ItemHealAmount &&
-							ItemInspectionRotation == Other.ItemInspectionRotation && ItemInspectionScale == Other.ItemInspectionScale;
+							ItemInspectionRotation == Other.ItemInspectionRotation && ItemInspectionScale == Other.ItemInspectionScale &&
+								isItemCraftable == Other.isItemCraftable;
 	}
 
 	bool operator!=(const FItemData& Other) const
