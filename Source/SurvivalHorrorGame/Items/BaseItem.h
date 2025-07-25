@@ -51,9 +51,6 @@ protected:
 	virtual bool Interact_Implementation(ACharacter* Interactor) override;
 	virtual void Inspect_Implementation(APlayerController* Interactor, UStaticMesh* ItemMesh,
 		const FText& ItemName, const FText& ItemDescription, UW_InventoryGrid* InventoryRef) override;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseItem|Inventory")
-	FItemData Item;
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -81,6 +78,9 @@ public:
 	void BreakItemDataBlueprint(FText& Name, FText& Description, bool& Stackable, 
 							   int32& Amount, UStaticMesh*& Mesh, UTexture2D*& Image, 
 							   bool& Healable, int32& HealAmount);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseItem|Inventory")
+	FItemData Item;
 
 	UFUNCTION(BlueprintCallable, Category = "BaseItem|Inventory")
 	const FItemData& GetItemDataConstRef() const { return Item; }

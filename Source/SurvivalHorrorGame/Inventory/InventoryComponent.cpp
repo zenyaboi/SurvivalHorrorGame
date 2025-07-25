@@ -113,18 +113,21 @@ void UInventoryComponent::ToggleInventory()
 	}
 }
 
-FAddItemResult UInventoryComponent::AddItemToInventory(ABaseItem* Item)
+FAddItemResult UInventoryComponent::AddItemToInventory(ABaseItem* Actor, FItemData NewItem)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Adicionei"));
 	
 	FAddItemResult Result;
 	FStackCheckResult shouldStack;
 	
-	if (!IsValid(Item))
+	if (!IsValid(Actor))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Item inválido"));
+		LocalItem = NewItem;
 		return Result;
 	}
+
+	LocalItem = Actor->Item;
 
 	if (ActorItems.Num() < InventorySize)
 	{
@@ -133,7 +136,7 @@ FAddItemResult UInventoryComponent::AddItemToInventory(ABaseItem* Item)
 
 	UE_LOG(LogTemp, Warning, TEXT("Válido"));
 	
-	FItemData InteractedItem = Item->GetItemDataConstRef();
+	FItemData InteractedItem = Actor->GetItemDataConstRef();
 	UE_LOG(LogTemp, Warning, TEXT("Peguei"));
 
 	if (!InteractedItem.isItemInventory)
@@ -159,11 +162,11 @@ FAddItemResult UInventoryComponent::AddItemToInventory(ABaseItem* Item)
 
 				if (!ActorItems[i])
 				{
-					ActorItems[i] = Item;
+					ActorItems[i] = Actor;
 				}
 				else
 				{
-					DestroyItem(Item);
+					DestroyItem(Actor);
 				}
 
 				Result.WasAdded = true;
@@ -171,7 +174,7 @@ FAddItemResult UInventoryComponent::AddItemToInventory(ABaseItem* Item)
 				Result.WasStacked = true;
 				Result.FinalQuantity = shouldStack.NewQuantity;
 
-				DestroyItem(Item);
+				DestroyItem(Actor);
 				RefreshInventory();
 				return Result;
 			}
@@ -187,14 +190,14 @@ FAddItemResult UInventoryComponent::AddItemToInventory(ABaseItem* Item)
 			ActorItems.SetNum(EmptySlot + 1);
 		
 		Items[EmptySlot] = InteractedItem;
-		ActorItems[EmptySlot] = Item;
+		ActorItems[EmptySlot] = Actor;
 
 		Result.WasAdded = true;
 		Result.TargetSlotIndex = EmptySlot;
 		Result.WasStacked = false;
 		Result.FinalQuantity = InteractedItem.ItemAmount;
 		
-		DestroyItem(Item);
+		DestroyItem(Actor);
 		RefreshInventory();
 		return Result;
 	}

@@ -107,7 +107,7 @@ public:
 	void ToggleInventory();
 
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
-	FAddItemResult AddItemToInventory(ABaseItem* Item);
+	FAddItemResult AddItemToInventory(ABaseItem* Actor, FItemData NewItem);
 
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	FStackCheckResult ShouldStackItems(FItemData itemFromInv, FItemData itemCurrentActor);
@@ -125,4 +125,6 @@ public:
 protected:
 	int32 currentStack;
 	int32 maxStack;
+
+	FItemData LocalItem;
 };
